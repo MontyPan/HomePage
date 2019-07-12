@@ -1,13 +1,10 @@
 package us.dontcareabout.homePage.client;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 
 import us.dontcareabout.gwt.client.GFEP;
 
 public class HomePageEP extends GFEP {
-	static final RpcServiceAsync rpc = GWT.create(RpcService.class);
-
 	public HomePageEP() {}
 
 	@Override
