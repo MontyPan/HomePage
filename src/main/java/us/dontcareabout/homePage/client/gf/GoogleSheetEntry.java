@@ -14,19 +14,19 @@ public class GoogleSheetEntry extends JavaScriptObject {
 	}-*/;
 
 	protected final native int intField(String name) /*-{
-		return this["gsx$" + name].$t;
+		return this["gsx$" + name].$t == "" ? 0 : this["gsx$" + name].$t;
 	}-*/;
 
 	protected final native Long longField(String name) /*-{
-		return this["gsx$" + name].$t;
+		return this["gsx$" + name].$t == "" ? 0 : this["gsx$" + name].$t;
 	}-*/;
 
 	protected final native double doubleField(String name) /*-{
-		return this["gsx$" + name].$t;
+		return this["gsx$" + name].$t == "" ? 0 : this["gsx$" + name].$t;
 	}-*/;
 
 	@SuppressWarnings("deprecation")
 	protected final Date dateField(String name) {
-		return new Date(stringField(name));
+		return stringField(name).isEmpty() ? null : new Date(stringField(name));
 	}
 }
