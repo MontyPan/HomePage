@@ -46,6 +46,7 @@ public class CalendarLayer extends LayerSprite {
 
 	private class MonthLayer extends LayerSprite {
 		int month;
+		boolean overlapUp = true;
 		ArrayList<SectionLayer> sections = new ArrayList<>();
 
 		public MonthLayer(int month) {
@@ -56,6 +57,18 @@ public class CalendarLayer extends LayerSprite {
 			SectionLayer sl = new SectionLayer(ftl);
 			sections.add(sl);
 			add(sl);
+
+			//處理開始日期與上一個結束日期重疊的
+			if (sections.size() == 1) { return; }
+
+			SectionLayer last = sections.get(sections.size() - 2);
+
+			if (last.record.getEnd().getDate() == ftl.getStart().getDate()) {
+				last.up = overlapUp;
+				overlapUp = !overlapUp;
+				sl.up = overlapUp;
+			}
+			////
 		}
 
 		public void clean() {
@@ -71,15 +84,27 @@ public class CalendarLayer extends LayerSprite {
 
 			for (SectionLayer sl : sections) {
 				sl.setLX((sl.record.getStart().getDate() - 1) * widthUnit + space);
-				sl.setLY(space);
 				sl.setWidth(sl.record.getLength() * widthUnit - space * 2);
-				sl.setHeight(getHeight() - space * 2);
+
+				if (sl.up == null) {
+					sl.setLY(space);
+					sl.setHeight(getHeight() - space * 2);
+				} else if (sl.up) {
+					sl.setLY(space);
+					sl.setHeight(getHeight() / 2 - space);
+				} else {
+					sl.setLY(getHeight() / 2 + space);
+					sl.setHeight(getHeight() / 2 - space);
+				}
 			}
 		}
 	}
 
 	private class SectionLayer extends LRectangleSprite {
 		FTL record;
+
+		/** null 表示全幅顯示，true 表示只佔上半格、false 表示只佔下半格 */
+		Boolean up;
 
 		SectionLayer(FTL ftl) {
 			record = ftl;
