@@ -140,7 +140,21 @@ public class CalendarLayer extends LayerSprite {
 			record = ftl;
 			startDay = ftl.getStart().getDate();
 			endDay = ftl.getEnd().getDate();
-			setFill(RGB.ORANGE);
+
+			double avg = ftl.getAmount() * 1.0 / ftl.getLength();
+
+			//XXX 整體來說還是套個漸層公式比較好，不過那等到有講究配色的時候再說 XD
+			if (avg >= 1) {
+				setOpacity(avg * 0.15 + 0.25);
+				//平均一天死五次也太悲情，所以假設不會超過
+				//因為不希望顏色太淡、希望 [1, 5] 對應值域 [0.4, 1]
+				//這導致得除上 10
+				setFill(RGB.RED);
+			} else {
+				setOpacity(avg);
+				setFill(RGB.ORANGE);
+			}
+
 			setRadius(4);
 		}
 	}
