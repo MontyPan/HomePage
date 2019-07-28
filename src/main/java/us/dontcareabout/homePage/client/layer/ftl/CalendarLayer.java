@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOutEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOutEvent.SpriteOutHandler;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent.SpriteOverHandler;
 import com.sencha.gxt.core.client.util.DateWrapper;
 
 import us.dontcareabout.gxt.client.draw.LRectangleSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.homePage.client.data.FTL;
+import us.dontcareabout.homePage.client.ui.FtlView;
+import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordEvent;
 
 public class CalendarLayer extends LayerSprite {
 	private HashMap<Integer, MonthLayer> layerMap = new HashMap<>();
@@ -68,6 +74,24 @@ public class CalendarLayer extends LayerSprite {
 
 		public MonthLayer(int month) {
 			this.month = month;
+
+			addSpriteOverHandler(new SpriteOverHandler() {
+				@Override
+				public void onSpriteOver(SpriteOverEvent event) {
+					for (SectionLayer section : sections) {
+						if (event.getSprite() == section) {
+							FtlView.fire(new ChangeRecordEvent(section.record));
+						}
+					}
+				}
+			});
+
+			addSpriteOutHandler(new SpriteOutHandler() {
+				@Override
+				public void onSpriteLeave(SpriteOutEvent event) {
+					FtlView.fire(new ChangeRecordEvent(null));
+				}
+			});
 		}
 
 		public void addRecord(FTL ftl) {
@@ -149,7 +173,6 @@ public class CalendarLayer extends LayerSprite {
 				setOpacity(avg * 0.15 + 0.25);
 				//平均一天死五次也太悲情，所以假設不會超過
 				//因為不希望顏色太淡、希望 (1, 5] 對應值域 (0.4, 1]
-				//這導致得除上 10
 				setFill(RGB.RED);
 			} else {
 				setOpacity(avg);
