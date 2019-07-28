@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
@@ -80,9 +79,11 @@ public class FtlView extends LayerContainer {
 		eventBus.fireEvent(event);
 	}
 
-	private static final Type<ChangeYearHandler> YEAR_TYPE = new Type<ChangeYearHandler>();
+	////////
 
 	public static class ChangeYearEvent extends GwtEvent<ChangeYearHandler> {
+		public static final Type<ChangeYearHandler> TYPE = new Type<ChangeYearHandler>();
+
 		public final int year;
 
 		public ChangeYearEvent(int year) {
@@ -91,7 +92,7 @@ public class FtlView extends LayerContainer {
 
 		@Override
 		public Type<ChangeYearHandler> getAssociatedType() {
-			return YEAR_TYPE;
+			return TYPE;
 		}
 
 		@Override
@@ -105,6 +106,36 @@ public class FtlView extends LayerContainer {
 	}
 
 	public static HandlerRegistration addChangeYear(ChangeYearHandler handler) {
-		return eventBus.addHandler(YEAR_TYPE, handler);
+		return eventBus.addHandler(ChangeYearEvent.TYPE, handler);
+	}
+
+	////////
+
+	public static class ChangeRecordEvent extends GwtEvent<ChangeRecordHandler> {
+		public static final Type<ChangeRecordHandler> TYPE = new Type<ChangeRecordHandler>();
+
+		public final FTL record;
+
+		public ChangeRecordEvent(FTL record) {
+			this.record = record;
+		}
+
+		@Override
+		public Type<ChangeRecordHandler> getAssociatedType() {
+			return TYPE;
+		}
+
+		@Override
+		protected void dispatch(ChangeRecordHandler handler) {
+			handler.onChangeRecord(this);
+		}
+	}
+
+	public interface ChangeRecordHandler extends EventHandler{
+		public void onChangeRecord(ChangeRecordEvent event);
+	}
+
+	public static HandlerRegistration addChangeRecord(ChangeRecordHandler handler) {
+		return eventBus.addHandler(ChangeRecordEvent.TYPE, handler);
 	}
 }
