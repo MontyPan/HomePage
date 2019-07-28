@@ -51,12 +51,13 @@ public class CalendarLayer extends LayerSprite {
 
 	@Override
 	protected void adjustMember() {
-		double unit = (getHeight() - 13 * 3) / 12;
+		final int space = 4;
+		double unit = (getHeight() - 13 * space) / 12;
 
 		for (MonthLayer ml : layerMap.values()) {
-			ml.setLX(3);
-			ml.setLY(ml.month * (unit + 3) + 3);
-			ml.resize(getWidth() - 6, unit);
+			ml.setLX(space / 2);
+			ml.setLY(ml.month * (unit + space) + space);
+			ml.resize(getWidth() - space, unit);
 		}
 	}
 
@@ -144,10 +145,10 @@ public class CalendarLayer extends LayerSprite {
 			double avg = ftl.getAmount() * 1.0 / ftl.getLength();
 
 			//XXX 整體來說還是套個漸層公式比較好，不過那等到有講究配色的時候再說 XD
-			if (avg >= 1) {
+			if (avg > 1) {
 				setOpacity(avg * 0.15 + 0.25);
 				//平均一天死五次也太悲情，所以假設不會超過
-				//因為不希望顏色太淡、希望 [1, 5] 對應值域 [0.4, 1]
+				//因為不希望顏色太淡、希望 (1, 5] 對應值域 (0.4, 1]
 				//這導致得除上 10
 				setFill(RGB.RED);
 			} else {
