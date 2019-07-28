@@ -8,7 +8,7 @@ import us.dontcareabout.homePage.client.data.DataCenter;
 import us.dontcareabout.homePage.client.data.FTL;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
-import us.dontcareabout.homePage.client.layer.CalendarLayer;
+import us.dontcareabout.homePage.client.layer.ftl.CalendarLayer;
 
 public class FtlView extends LayerContainer {
 	private CalendarLayer calendar = new CalendarLayer();

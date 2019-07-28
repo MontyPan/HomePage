@@ -1,4 +1,4 @@
-package us.dontcareabout.homePage.client.layer;
+package us.dontcareabout.homePage.client.layer.ftl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
