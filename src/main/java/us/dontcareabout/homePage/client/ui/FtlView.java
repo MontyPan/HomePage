@@ -3,6 +3,12 @@ package us.dontcareabout.homePage.client.ui;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
+
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.homePage.client.data.DataCenter;
 import us.dontcareabout.homePage.client.data.FTL;
@@ -58,5 +64,40 @@ public class FtlView extends LayerContainer {
 		calendar.refresh(maxYear, yearMap.get(maxYear));
 		years.refresh(yearMap.keySet());
 		redrawSurface();
+	}
+
+	// ==== Event Center ==== //
+	private final static SimpleEventBus eventBus = new SimpleEventBus();
+
+	public static void fire(GwtEvent<?> event) {
+		eventBus.fireEvent(event);
+	}
+
+	private static final Type<ChangeYearHandler> YEAR_TYPE = new Type<ChangeYearHandler>();
+
+	public static class ChangeYearEvent extends GwtEvent<ChangeYearHandler> {
+		public final int year;
+
+		public ChangeYearEvent(int year) {
+			this.year = year;
+		}
+
+		@Override
+		public Type<ChangeYearHandler> getAssociatedType() {
+			return YEAR_TYPE;
+		}
+
+		@Override
+		protected void dispatch(ChangeYearHandler handler) {
+			handler.onChangeYear(this);
+		}
+	}
+
+	public interface ChangeYearHandler extends EventHandler{
+		public void onChangeYear(ChangeYearEvent event);
+	}
+
+	public static HandlerRegistration addChangeYear(ChangeYearHandler handler) {
+		return eventBus.addHandler(YEAR_TYPE, handler);
 	}
 }
