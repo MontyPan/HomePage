@@ -34,6 +34,13 @@ public class FtlView extends LayerContainer {
 			}
 		});
 		DataCenter.wantFTL();
+
+		addChangeYear(new ChangeYearHandler() {
+			@Override
+			public void onChangeYear(ChangeYearEvent event) {
+				calendar.refresh(event.year, yearMap.get(event.year));
+			}
+		});
 	}
 
 	@Override

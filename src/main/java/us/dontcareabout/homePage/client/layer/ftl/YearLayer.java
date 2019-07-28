@@ -5,14 +5,30 @@ import java.util.Collections;
 import java.util.Set;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.component.TextButton;
+import us.dontcareabout.homePage.client.ui.FtlView;
+import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearEvent;
+import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearHandler;
 
 //TODO 年份過多出現左右捲動按鈕
 public class YearLayer extends LayerSprite {
 	private ArrayList<YearButton> list = new ArrayList<>();
 	private YearButton now;
+
+	public YearLayer() {
+		FtlView.addChangeYear(new ChangeYearHandler() {
+			@Override
+			public void onChangeYear(ChangeYearEvent event) {
+				for (YearButton yb : list) {
+					yb.setEnable(yb.year == event.year);
+				}
+			}
+		});
+	}
 
 	public void refresh(Set<Integer> set) {
 		for (YearButton tb : list) {
@@ -51,10 +67,19 @@ public class YearLayer extends LayerSprite {
 	}
 
 	private class YearButton extends TextButton {
-		YearButton(int year) {
-			super("" + year);
+		int year;
+
+		YearButton(int value) {
+			super("" + value);
+			this.year = value;
 			setBgRadius(5);
 			setEnable(false);
+			addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					FtlView.fire(new ChangeYearEvent(year));
+				}
+			});
 		}
 
 		void setEnable(boolean flag) {
