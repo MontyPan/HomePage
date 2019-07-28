@@ -14,17 +14,20 @@ import us.dontcareabout.homePage.client.data.FTL;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
 import us.dontcareabout.homePage.client.layer.ftl.CalendarLayer;
+import us.dontcareabout.homePage.client.layer.ftl.InfoLayer;
 import us.dontcareabout.homePage.client.layer.ftl.YearLayer;
 
 public class FtlView extends LayerContainer {
 	private CalendarLayer calendar = new CalendarLayer();
 	private YearLayer years = new YearLayer();
+	private InfoLayer info = new InfoLayer();
 
 	private HashMap<Integer, ArrayList<FTL>> yearMap = new HashMap<>();
 
 	public FtlView() {
 		addLayer(calendar);
 		addLayer(years);
+		addLayer(info);
 
 		DataCenter.addFtlReady(new FtlReadyHandler() {
 			@Override
@@ -45,8 +48,17 @@ public class FtlView extends LayerContainer {
 	@Override
 	protected void onResize(int width, int height) {
 		int leftSize = 300;
+		years.setLX(0);
+		years.setLY(0);
 		years.resize(width - leftSize, 40);
-		calendar.resize(width - leftSize, height - 40);
+
+		calendar.setLX(0);
+		calendar.setLY(40);
+		calendar.resize(width - leftSize, height - 76);
+
+		info.setLX(0);
+		info.setLY(height - 36);
+		info.resize(width - leftSize, 36);
 		super.onResize(width, height);
 	}
 
