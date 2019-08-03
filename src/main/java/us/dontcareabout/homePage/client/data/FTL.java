@@ -28,7 +28,6 @@ public final class FTL extends GoogleSheetEntry {
 	}
 
 	public int getAmount() {
-		//奇妙的 JSNI 哏... 這樣才能順利加 1
-		return intField("次數") * 1 + 1;
+		return intField("次數") + 1;
 	}
 }

@@ -2,31 +2,35 @@ package us.dontcareabout.homePage.client.gf;
 
 import java.util.Date;
 
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.JavaScriptObject;
 
 //Refactory GF
 public class GoogleSheetEntry extends JavaScriptObject {
 	protected GoogleSheetEntry() {}
 
-	//用泛型大法會炸 casting 錯誤，只好提供各種對應 method... ＝＝"
 	protected final native String stringField(String name) /*-{
 		return this["gsx$" + name].$t;
 	}-*/;
 
-	protected final native int intField(String name) /*-{
-		return this["gsx$" + name].$t == "" ? 0 : this["gsx$" + name].$t;
-	}-*/;
+	protected final Integer intField(String name) {
+		String value = stringField(name);
+		return Strings.isNullOrEmpty(value) ? 0 : Integer.valueOf(value);
+	}
 
-	protected final native Long longField(String name) /*-{
-		return this["gsx$" + name].$t == "" ? 0 : this["gsx$" + name].$t;
-	}-*/;
+	protected final Long longField(String name) {
+		String value = stringField(name);
+		return Strings.isNullOrEmpty(value) ? 0 : Long.valueOf(value);
+	}
 
-	protected final native double doubleField(String name) /*-{
-		return this["gsx$" + name].$t == "" ? 0 : this["gsx$" + name].$t;
-	}-*/;
+	protected final Double doubleField(String name) {
+		String value = stringField(name);
+		return Strings.isNullOrEmpty(value) ? 0 : Double.valueOf(value);
+	}
 
 	@SuppressWarnings("deprecation")
 	protected final Date dateField(String name) {
-		return stringField(name).isEmpty() ? null : new Date(stringField(name));
+		String value = stringField(name);
+		return Strings.isNullOrEmpty(value) ? null : new Date(value);
 	}
 }
