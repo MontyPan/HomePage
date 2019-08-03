@@ -1,8 +1,12 @@
 package us.dontcareabout.homePage.client;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.sencha.gxt.widget.core.client.container.Viewport;
 
 import us.dontcareabout.gwt.client.GFEP;
+import us.dontcareabout.homePage.client.ui.FtlView;
 
 public class HomePageEP extends GFEP {
 	public HomePageEP() {}
@@ -20,6 +24,13 @@ public class HomePageEP extends GFEP {
 
 	@Override
 	protected void start() {
+		Viewport vp = new Viewport();
+		RootPanel.get().add(vp);
 
+		switch(Location.getPath()) {
+		case "/ps/ftl.html":
+			vp.add(new FtlView());
+			break;
+		}
 	}
 }
