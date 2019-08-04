@@ -10,7 +10,7 @@ import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordEvent;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordHandler;
 
-public class InfoLayer extends LayerSprite {
+class InfoLayer extends LayerSprite {
 	private static final DateTimeFormat format = DateTimeFormat.getFormat("yyyy/MM/dd");
 
 	private LTextSprite text = new LTextSprite();

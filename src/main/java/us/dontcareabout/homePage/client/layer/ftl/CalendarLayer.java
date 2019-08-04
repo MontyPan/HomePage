@@ -16,7 +16,7 @@ import us.dontcareabout.homePage.client.data.FTL;
 import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordEvent;
 
-public class CalendarLayer extends LayerSprite {
+class CalendarLayer extends LayerSprite {
 	private HashMap<Integer, MonthLayer> layerMap = new HashMap<>();
 	private int year;
 

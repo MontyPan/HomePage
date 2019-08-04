@@ -15,7 +15,7 @@ import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearEvent;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearHandler;
 
 //TODO 年份過多出現左右捲動按鈕
-public class YearLayer extends LayerSprite {
+class YearLayer extends LayerSprite {
 	private ArrayList<YearButton> list = new ArrayList<>();
 	private YearButton now;
 

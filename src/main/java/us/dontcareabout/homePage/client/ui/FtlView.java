@@ -1,7 +1,6 @@
 package us.dontcareabout.homePage.client.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -13,24 +12,16 @@ import us.dontcareabout.homePage.client.data.DataCenter;
 import us.dontcareabout.homePage.client.data.FTL;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
-import us.dontcareabout.homePage.client.layer.ftl.CalendarLayer;
-import us.dontcareabout.homePage.client.layer.ftl.InfoLayer;
 import us.dontcareabout.homePage.client.layer.ftl.StatisticsLayer;
-import us.dontcareabout.homePage.client.layer.ftl.YearLayer;
+import us.dontcareabout.homePage.client.layer.ftl.TimeLayer;
 
 public class FtlView extends LayerContainer {
-	private CalendarLayer calendar = new CalendarLayer();
+	private TimeLayer timeLayer = new TimeLayer();
 	private StatisticsLayer statisticLayer = new StatisticsLayer();
-	private YearLayer years = new YearLayer();
-	private InfoLayer info = new InfoLayer();
-
-	private HashMap<Integer, ArrayList<FTL>> yearMap = new HashMap<>();
 
 	public FtlView() {
+		addLayer(timeLayer);
 		addLayer(statisticLayer);
-		addLayer(calendar);
-		addLayer(years);
-		addLayer(info);
 
 		DataCenter.addFtlReady(new FtlReadyHandler() {
 			@Override
@@ -39,57 +30,25 @@ public class FtlView extends LayerContainer {
 			}
 		});
 		DataCenter.wantFTL();
-
-		addChangeYear(new ChangeYearHandler() {
-			@Override
-			public void onChangeYear(ChangeYearEvent event) {
-				calendar.refresh(event.year, yearMap.get(event.year));
-			}
-		});
 	}
 
 	@Override
 	protected void onResize(int width, int height) {
 		int leftSize = 350;
+		timeLayer.setLX(0);
+		timeLayer.setLY(0);
+		timeLayer.resize(width - leftSize, height);
+
 		statisticLayer.setLX(width - leftSize);
 		statisticLayer.setLY(0);
 		statisticLayer.resize(leftSize, height);
 
-		years.setLX(0);
-		years.setLY(0);
-		years.resize(width - leftSize, 40);
-
-		calendar.setLX(0);
-		calendar.setLY(40);
-		calendar.resize(width - leftSize, height - 76);
-
-		info.setLX(0);
-		info.setLY(height - 36);
-		info.resize(width - leftSize, 36);
 		super.onResize(width, height);
 	}
 
 	private void refresh(ArrayList<FTL> data) {
+		timeLayer.refresh(data);
 		statisticLayer.refresh(data);
-
-		yearMap.clear();
-
-		int maxYear = 0;
-		for (FTL ftl : data) {
-			ArrayList<FTL> year = yearMap.get(ftl.getStart().getFullYear());
-
-			if (year == null) {
-				year = new ArrayList<>();
-				yearMap.put(ftl.getStart().getFullYear(), year);
-			}
-
-			if (ftl.getStart().getFullYear() > maxYear) { maxYear = ftl.getStart().getFullYear(); }
-
-			year.add(ftl);
-		}
-
-		calendar.refresh(maxYear, yearMap.get(maxYear));
-		years.refresh(yearMap.keySet());
 		redrawSurface();
 	}
 
