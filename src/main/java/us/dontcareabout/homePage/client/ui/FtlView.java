@@ -15,16 +15,19 @@ import us.dontcareabout.homePage.client.data.FtlReadyEvent;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
 import us.dontcareabout.homePage.client.layer.ftl.CalendarLayer;
 import us.dontcareabout.homePage.client.layer.ftl.InfoLayer;
+import us.dontcareabout.homePage.client.layer.ftl.StatisticsLayer;
 import us.dontcareabout.homePage.client.layer.ftl.YearLayer;
 
 public class FtlView extends LayerContainer {
 	private CalendarLayer calendar = new CalendarLayer();
+	private StatisticsLayer statisticLayer = new StatisticsLayer();
 	private YearLayer years = new YearLayer();
 	private InfoLayer info = new InfoLayer();
 
 	private HashMap<Integer, ArrayList<FTL>> yearMap = new HashMap<>();
 
 	public FtlView() {
+		addLayer(statisticLayer);
 		addLayer(calendar);
 		addLayer(years);
 		addLayer(info);
@@ -47,7 +50,11 @@ public class FtlView extends LayerContainer {
 
 	@Override
 	protected void onResize(int width, int height) {
-		int leftSize = 300;
+		int leftSize = 350;
+		statisticLayer.setLX(width - leftSize);
+		statisticLayer.setLY(0);
+		statisticLayer.resize(leftSize, height);
+
 		years.setLX(0);
 		years.setLY(0);
 		years.resize(width - leftSize, 40);
@@ -63,6 +70,8 @@ public class FtlView extends LayerContainer {
 	}
 
 	private void refresh(ArrayList<FTL> data) {
+		statisticLayer.refresh(data);
+
 		yearMap.clear();
 
 		int maxYear = 0;
