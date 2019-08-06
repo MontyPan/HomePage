@@ -1,18 +1,16 @@
 package us.dontcareabout.homePage.client.layer.ftl;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.sencha.gxt.chart.client.draw.RGB;
 
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
+import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.data.FTL;
 import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordEvent;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordHandler;
 
 class InfoLayer extends LayerSprite {
-	private static final DateTimeFormat format = DateTimeFormat.getFormat("yyyy/MM/dd");
-
 	private LTextSprite text = new LTextSprite();
 
 	public InfoLayer() {
@@ -34,7 +32,7 @@ class InfoLayer extends LayerSprite {
 		text.setText(
 			record == null ? "" :
 			record.getShip() + " : " + record.getAmount() + " 次 / " + record.getLength() + " 天 ("
-					+ format.format(record.getStart().asDate()) + " ~ " + format.format(record.getEnd().asDate()) + ")"
+					+ Util.dateFormat.format(record.getStart().asDate()) + " ~ " + Util.dateFormat.format(record.getEnd().asDate()) + ")"
 		);
 	}
 }

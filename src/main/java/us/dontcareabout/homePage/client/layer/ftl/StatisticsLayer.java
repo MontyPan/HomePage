@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import com.google.gwt.i18n.client.NumberFormat;
 import com.sencha.gxt.chart.client.draw.RGB;
 
 import us.dontcareabout.gxt.client.draw.LRectangleSprite;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
+import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.data.FTL;
 
 public class StatisticsLayer extends LayerSprite {
-	private static NumberFormat numberFormat = NumberFormat.getFormat("##.#");
 	private static RGB shipBG = new RGB("#70EEFF");
 
 	private ArrayList<ShipLayer> ships = new ArrayList<>();
@@ -88,7 +87,7 @@ public class StatisticsLayer extends LayerSprite {
 			amountRS.setWidth(getWidth() * getRatio() / ships.get(0).getRatio());
 			amountRS.setHeight(getHeight());
 
-			nameTS.setText(ship + " (" + numberFormat.format(getRatio()) + ")");
+			nameTS.setText(ship + " (" + Util.numberFormat.format(getRatio()) + ")");
 			nameTS.setLX(6);
 			nameTS.setLY(3);
 		}
