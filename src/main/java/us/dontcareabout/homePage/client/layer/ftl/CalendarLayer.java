@@ -100,7 +100,7 @@ class CalendarLayer extends LayerSprite {
 			add(sl);
 
 			//校正起始 or 結束月份非本月的對應日期
-			if (sl.record.getStart().getMonth() < month) {
+			if (sl.record.getStart().getFullYear() < year || sl.record.getStart().getMonth() < month) {
 				sl.startDay = 1;
 			}
 
@@ -172,8 +172,12 @@ class CalendarLayer extends LayerSprite {
 			if (avg > 1) {
 				setOpacity(avg * 0.15 + 0.25);
 				//平均一天死五次也太悲情，所以假設不會超過
-				//因為不希望顏色太淡、希望 (1, 5] 對應值域 (0.4, 1]
+				//因為不希望顏色太淡、所以把 (1, 5] 對應值域 (0.4, 1]
 				setFill(RGB.RED);
+			} else if (avg < 0.2){
+				//太淡會看不到，所以把 (0, 0.2) 對應值域 (0.1, 0.7)
+				setOpacity(avg * 3 + 0.1);
+				setFill(RGB.YELLOW);
 			} else {
 				setOpacity(avg);
 				setFill(RGB.ORANGE);

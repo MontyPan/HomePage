@@ -34,16 +34,19 @@ public class TimeLayer extends LayerSprite {
 
 		int maxYear = 0;
 		for (FTL ftl : data) {
-			ArrayList<FTL> year = yearMap.get(ftl.getStart().getFullYear());
-
-			if (year == null) {
-				year = new ArrayList<>();
-				yearMap.put(ftl.getStart().getFullYear(), year);
-			}
+			ArrayList<FTL> year = ensure(ftl.getStart().getFullYear());
+			year.add(ftl);
 
 			if (ftl.getStart().getFullYear() > maxYear) { maxYear = ftl.getStart().getFullYear(); }
 
-			year.add(ftl);
+			//不考慮橫跨兩年以上的狀況
+			if (ftl.getStart().getFullYear() != ftl.getEnd().getFullYear()) {
+				year = ensure(ftl.getEnd().getFullYear());
+				year.add(ftl);
+
+				//再度檢查 maxYear 是否要調整
+				if (ftl.getEnd().getFullYear() > maxYear) { maxYear = ftl.getEnd().getFullYear(); }
+			}
 		}
 
 		calendar.refresh(maxYear, yearMap.get(maxYear));
@@ -63,5 +66,16 @@ public class TimeLayer extends LayerSprite {
 		info.setLX(0);
 		info.setLY(getHeight() - 36);
 		info.resize(getWidth(), 36);
+	}
+
+	private ArrayList<FTL> ensure(int year) {
+		ArrayList<FTL> result = yearMap.get(year);
+
+		if (result == null) {
+			result = new ArrayList<>();
+			yearMap.put(year, result);
+		}
+
+		return result;
 	}
 }
