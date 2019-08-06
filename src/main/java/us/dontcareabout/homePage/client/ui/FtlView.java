@@ -14,14 +14,17 @@ import us.dontcareabout.homePage.client.data.FtlReadyEvent;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
 import us.dontcareabout.homePage.client.layer.ftl.StatisticsLayer;
 import us.dontcareabout.homePage.client.layer.ftl.TimeLayer;
+import us.dontcareabout.homePage.client.layer.ftl.TrophyLayer;
 
 public class FtlView extends LayerContainer {
 	private TimeLayer timeLayer = new TimeLayer();
 	private StatisticsLayer statisticLayer = new StatisticsLayer();
+	private TrophyLayer trophyLayer = new TrophyLayer();
 
 	public FtlView() {
 		addLayer(timeLayer);
 		addLayer(statisticLayer);
+		addLayer(trophyLayer);
 
 		DataCenter.addFtlReady(new FtlReadyHandler() {
 			@Override
@@ -34,14 +37,18 @@ public class FtlView extends LayerContainer {
 
 	@Override
 	protected void onResize(int width, int height) {
-		int leftSize = 350;
+		int leftSize = 550;
 		timeLayer.setLX(0);
 		timeLayer.setLY(0);
 		timeLayer.resize(width - leftSize, height);
 
 		statisticLayer.setLX(width - leftSize);
 		statisticLayer.setLY(0);
-		statisticLayer.resize(leftSize, height);
+		statisticLayer.resize(300, height);
+
+		trophyLayer.setLX(width - 250);
+		trophyLayer.setLY(0);
+		trophyLayer.resize(250, height);
 
 		super.onResize(width, height);
 	}
@@ -49,6 +56,7 @@ public class FtlView extends LayerContainer {
 	private void refresh(ArrayList<FTL> data) {
 		timeLayer.refresh(data);
 		statisticLayer.refresh(data);
+		trophyLayer.refresh(data);
 		redrawSurface();
 	}
 
