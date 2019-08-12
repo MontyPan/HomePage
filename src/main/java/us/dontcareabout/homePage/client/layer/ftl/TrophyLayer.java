@@ -9,8 +9,9 @@ import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.component.TextButton;
 import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.data.FTL;
+import us.dontcareabout.homePage.client.gf.VerticalLayoutLayer;
 
-public class TrophyLayer extends LayerSprite {
+public class TrophyLayer extends VerticalLayoutLayer {
 	private UnitLayer longest = new UnitLayer(new UnitBuilder() {
 		@Override
 		public String title() { return "慢慢長路獎"; }
@@ -40,9 +41,9 @@ public class TrophyLayer extends LayerSprite {
 	});
 
 	public TrophyLayer() {
-		add(longest);
-		add(dieHard);
-		add(damnTitle);
+		addChild(longest, 130);
+		addChild(dieHard, 130);
+		addChild(damnTitle, 130);
 	}
 
 	public void refresh(ArrayList<FTL> data) {
@@ -63,22 +64,6 @@ public class TrophyLayer extends LayerSprite {
 		}
 
 		adjustMember();
-	}
-
-	@Override
-	protected void adjustMember() {
-		final int unitH = 130;
-		longest.setLX(0);
-		longest.setLY(0);
-		longest.resize(getWidth(), unitH);
-
-		dieHard.setLX(0);
-		dieHard.setLY(unitH);
-		dieHard.resize(getWidth(), unitH);
-
-		damnTitle.setLX(0);
-		damnTitle.setLY(unitH * 2);
-		damnTitle.resize(getWidth(), unitH);
 	}
 
 	private class UnitLayer extends LayerSprite {
