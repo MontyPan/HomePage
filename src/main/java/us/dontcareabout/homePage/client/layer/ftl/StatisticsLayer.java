@@ -11,11 +11,16 @@ import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.data.FTL;
+import us.dontcareabout.homePage.client.gf.VerticalLayoutLayer;
 
-public class StatisticsLayer extends LayerSprite {
+public class StatisticsLayer extends VerticalLayoutLayer {
 	private static RGB shipBG = new RGB("#70EEFF");
 
 	private ArrayList<ShipLayer> ships = new ArrayList<>();
+
+	public StatisticsLayer() {
+		setMargin(3);
+	}
 
 	public void refresh(ArrayList<FTL> data) {
 		HashMap<String, ShipLayer> shipMap = new HashMap<>();
@@ -27,7 +32,6 @@ public class StatisticsLayer extends LayerSprite {
 				sl = new ShipLayer(ftl.getShip());
 				shipMap.put(ftl.getShip(), sl);
 				ships.add(sl);
-				add(sl);
 			}
 
 			sl.amount += ftl.getAmount();
@@ -35,23 +39,13 @@ public class StatisticsLayer extends LayerSprite {
 		}
 
 		Collections.sort(ships);
-		redeploy();
-		adjustMember();
-	}
-
-	@Override
-	protected void adjustMember() {
-		final int space = 3;
-		final int hUnit = 25;
-
-		int index = 0;
 
 		for (ShipLayer sl : ships) {
-			sl.resize(getWidth() - space * 3, hUnit);
-			sl.setLX(3);
-			sl.setLY((index + 1) * space + index * hUnit);
-			index++;
+			addChild(sl, 28);
 		}
+
+		redeploy();
+		adjustMember();
 	}
 
 	private class ShipLayer extends LayerSprite implements Comparable<ShipLayer> {
@@ -85,7 +79,7 @@ public class StatisticsLayer extends LayerSprite {
 			amountRS.setLX(0);
 			amountRS.setLY(0);
 			amountRS.setWidth(getWidth() * getRatio() / ships.get(0).getRatio());
-			amountRS.setHeight(getHeight());
+			amountRS.setHeight(getHeight() - 3);
 
 			nameTS.setText(ship + " (" + Util.numberFormat.format(getRatio()) + ")");
 			nameTS.setLX(6);
