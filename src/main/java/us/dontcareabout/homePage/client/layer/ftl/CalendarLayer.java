@@ -13,17 +13,20 @@ import com.sencha.gxt.core.client.util.DateWrapper;
 import us.dontcareabout.gxt.client.draw.LRectangleSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.homePage.client.data.FTL;
+import us.dontcareabout.homePage.client.gf.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordEvent;
 
-class CalendarLayer extends LayerSprite {
+class CalendarLayer extends VerticalLayoutLayer {
 	private HashMap<Integer, MonthLayer> layerMap = new HashMap<>();
 	private int year;
 
 	public CalendarLayer() {
+		setMargin(4);
+
 		for (int i = 0; i < 12; i++) {
 			MonthLayer ml = new MonthLayer(i);
-			add(ml);
+			addChild(ml, 1.0/12);
 			layerMap.put(i, ml);
 		}
 	}
@@ -53,18 +56,6 @@ class CalendarLayer extends LayerSprite {
 
 		redeploy();
 		adjustMember();
-	}
-
-	@Override
-	protected void adjustMember() {
-		final int space = 4;
-		double unit = (getHeight() - 13 * space) / 12;
-
-		for (MonthLayer ml : layerMap.values()) {
-			ml.setLX(space / 2);
-			ml.setLY(ml.month * (unit + space) + space);
-			ml.resize(getWidth() - space, unit);
-		}
 	}
 
 	private class MonthLayer extends LayerSprite {
@@ -130,7 +121,7 @@ class CalendarLayer extends LayerSprite {
 
 		@Override
 		protected void adjustMember() {
-			final int space = 2;
+			final int space = 3;
 			double widthUnit = getWidth() / 31;
 
 			for (SectionLayer sl : sections) {
@@ -142,10 +133,10 @@ class CalendarLayer extends LayerSprite {
 					sl.setHeight(getHeight() - space * 2);
 				} else if (sl.up) {
 					sl.setLY(space);
-					sl.setHeight(getHeight() / 2 - space);
+					sl.setHeight(getHeight() / 2 - space * 1.5);
 				} else {
-					sl.setLY(getHeight() / 2 + space);
-					sl.setHeight(getHeight() / 2 - space);
+					sl.setLY(getHeight() / 2 + space * 0.5);
+					sl.setHeight(getHeight() / 2 - space * 1.5);
 				}
 			}
 		}
