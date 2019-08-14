@@ -1,33 +1,8 @@
 package us.dontcareabout.homePage.client.gf;
 
-import java.util.ArrayList;
-
-import com.google.common.base.Preconditions;
-import com.sencha.gxt.core.client.util.Margins;
-
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 
-public class VerticalLayoutLayer extends LayerSprite {
-	private ArrayList<LayerSprite> children = new ArrayList<>();
-	private ArrayList<Double> weightList = new ArrayList<>();
-	private Margins margins = new Margins();
-
-	public void addChild(LayerSprite child, double weight) {
-		Preconditions.checkArgument(weight > 0);
-		children.add(child);
-		weightList.add(weight);
-		add(child);
-	}
-
-	public void setMargin(int value) {
-		margins = new Margins(value);
-	}
-
-	public void setMargin(Margins margins) {
-		Preconditions.checkArgument(margins != null);
-		this.margins = margins;
-	}
-
+public class VerticalLayoutLayer extends WeightLayoutLayer {
 	@Override
 	protected final void adjustMember() {
 		double fixed = 0;
