@@ -12,6 +12,7 @@ import us.dontcareabout.homePage.client.data.DataCenter;
 import us.dontcareabout.homePage.client.data.FTL;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
+import us.dontcareabout.homePage.client.gf.HorizontalLayoutLayer;
 import us.dontcareabout.homePage.client.layer.ftl.StatisticsLayer;
 import us.dontcareabout.homePage.client.layer.ftl.TimeLayer;
 import us.dontcareabout.homePage.client.layer.ftl.TrophyLayer;
@@ -20,11 +21,13 @@ public class FtlView extends LayerContainer {
 	private TimeLayer timeLayer = new TimeLayer();
 	private StatisticsLayer statisticLayer = new StatisticsLayer();
 	private TrophyLayer trophyLayer = new TrophyLayer();
+	private HorizontalLayoutLayer layout = new HorizontalLayoutLayer();
 
 	public FtlView() {
-		addLayer(timeLayer);
-		addLayer(statisticLayer);
-		addLayer(trophyLayer);
+		layout.addChild(timeLayer, 1);
+		layout.addChild(statisticLayer, 300);
+		layout.addChild(trophyLayer, 250);
+		addLayer(layout);
 
 		DataCenter.addFtlReady(new FtlReadyHandler() {
 			@Override
@@ -37,19 +40,7 @@ public class FtlView extends LayerContainer {
 
 	@Override
 	protected void onResize(int width, int height) {
-		int leftSize = 550;
-		timeLayer.setLX(0);
-		timeLayer.setLY(0);
-		timeLayer.resize(width - leftSize, height);
-
-		statisticLayer.setLX(width - leftSize);
-		statisticLayer.setLY(0);
-		statisticLayer.resize(300, height);
-
-		trophyLayer.setLX(width - 250);
-		trophyLayer.setLY(0);
-		trophyLayer.resize(250, height);
-
+		layout.resize(width, height);
 		super.onResize(width, height);
 	}
 
