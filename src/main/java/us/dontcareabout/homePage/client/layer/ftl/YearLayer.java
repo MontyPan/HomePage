@@ -8,18 +8,19 @@ import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 
-import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.component.TextButton;
+import us.dontcareabout.homePage.client.gf.HorizontalLayoutLayer;
 import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearEvent;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearHandler;
 
 //TODO 年份過多出現左右捲動按鈕
-class YearLayer extends LayerSprite {
+class YearLayer extends HorizontalLayoutLayer {
 	private ArrayList<YearButton> list = new ArrayList<>();
 	private YearButton now;
 
 	public YearLayer() {
+		setMargin(3);
 		FtlView.addChangeYear(new ChangeYearHandler() {
 			@Override
 			public void onChangeYear(ChangeYearEvent event) {
@@ -40,30 +41,15 @@ class YearLayer extends LayerSprite {
 
 		for (int year : set) {
 			YearButton tb = new YearButton(year);
-			add(tb);
+			addChild(tb, 70);
 			list.add(tb);
-			redeploy();
 		}
 
 		now = list.get(list.size() - 1);
 		now.setEnable(true);
 
+		redeploy();
 		adjustMember();
-	}
-
-	@Override
-	protected void adjustMember() {
-		final int space = 3;
-		final int width = 70;
-
-		int count = 1;
-
-		for (YearButton tb : list) {
-			tb.setLX(count * (width + space) - width);
-			tb.setLY(space);
-			tb.resize(width, getHeight() - space * 2);
-			count++;
-		}
 	}
 
 	private class YearButton extends TextButton {
