@@ -4,11 +4,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 import us.dontcareabout.gwt.client.Console;
+import us.dontcareabout.gwt.client.google.Sheet;
+import us.dontcareabout.gwt.client.google.SheetHappen;
+import us.dontcareabout.gwt.client.google.SheetHappen.Callback;
 import us.dontcareabout.homePage.client.data.AliceWorkReadyEvent.AliceWorkReadyHandler;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
-import us.dontcareabout.homePage.client.gf.GoogleSheet;
-import us.dontcareabout.homePage.client.gf.SheetHappen;
-import us.dontcareabout.homePage.client.gf.SheetHappen.Callback;
 
 public class DataCenter {
 	private final static SimpleEventBus eventBus = new SimpleEventBus();
@@ -19,7 +19,7 @@ public class DataCenter {
 		SheetHappen.<FTL>get(PS_ID, 1,
 			new Callback<FTL>() {
 				@Override
-				public void onSuccess(GoogleSheet<FTL> gs) {
+				public void onSuccess(Sheet<FTL> gs) {
 					eventBus.fireEvent(new FtlReadyEvent(gs.getEntry()));
 				}
 
@@ -41,7 +41,7 @@ public class DataCenter {
 	public static void wantAlice() {
 		SheetHappen.<AliceWork>get(ALICE_ID, new Callback<AliceWork>() {
 			@Override
-			public void onSuccess(GoogleSheet<AliceWork> gs) {
+			public void onSuccess(Sheet<AliceWork> gs) {
 				eventBus.fireEvent(new AliceWorkReadyEvent(gs.getEntry()));
 			}
 

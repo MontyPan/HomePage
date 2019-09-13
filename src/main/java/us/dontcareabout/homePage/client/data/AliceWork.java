@@ -1,8 +1,8 @@
 package us.dontcareabout.homePage.client.data;
 
-import us.dontcareabout.homePage.client.gf.GoogleSheetEntry;
+import us.dontcareabout.gwt.client.google.SheetEntry;
 
-public final class AliceWork extends GoogleSheetEntry {
+public final class AliceWork extends SheetEntry {
 	protected AliceWork() {}
 
 	public String getType() {
@@ -21,7 +21,7 @@ public final class AliceWork extends GoogleSheetEntry {
 		return stringField("出版資訊");
 	}
 
-	public int getYear() {
+	public Integer getYear() {
 		return intField("年份");
 	}
 }
