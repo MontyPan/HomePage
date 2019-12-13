@@ -8,11 +8,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 import us.dontcareabout.gxt.client.draw.LayerContainer;
+import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.homePage.client.data.DataCenter;
 import us.dontcareabout.homePage.client.data.FTL;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
-import us.dontcareabout.homePage.client.gf.HorizontalLayoutLayer;
 import us.dontcareabout.homePage.client.layer.ftl.StatisticsLayer;
 import us.dontcareabout.homePage.client.layer.ftl.TimeLayer;
 import us.dontcareabout.homePage.client.layer.ftl.TrophyLayer;

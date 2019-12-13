@@ -9,7 +9,7 @@ import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 
 import us.dontcareabout.gxt.client.draw.component.TextButton;
-import us.dontcareabout.homePage.client.gf.HorizontalLayoutLayer;
+import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearEvent;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearHandler;
@@ -20,7 +20,7 @@ class YearLayer extends HorizontalLayoutLayer {
 	private YearButton now;
 
 	public YearLayer() {
-		setMargin(3);
+		setMargins(3);
 		FtlView.addChangeYear(new ChangeYearHandler() {
 			@Override
 			public void onChangeYear(ChangeYearEvent event) {

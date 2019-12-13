@@ -7,9 +7,9 @@ import com.sencha.gxt.chart.client.draw.RGB;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.component.TextButton;
+import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.data.FTL;
-import us.dontcareabout.homePage.client.gf.VerticalLayoutLayer;
 
 public class TrophyLayer extends VerticalLayoutLayer {
 	private UnitLayer longest = new UnitLayer(new UnitBuilder() {

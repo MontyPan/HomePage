@@ -3,8 +3,8 @@ package us.dontcareabout.homePage.client.layer.ftl;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.data.FTL;
-import us.dontcareabout.homePage.client.gf.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearEvent;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeYearHandler;

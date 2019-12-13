@@ -9,9 +9,9 @@ import com.sencha.gxt.chart.client.draw.RGB;
 import us.dontcareabout.gxt.client.draw.LRectangleSprite;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
+import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.data.FTL;
-import us.dontcareabout.homePage.client.gf.VerticalLayoutLayer;
 
 public class StatisticsLayer extends VerticalLayoutLayer {
 	private static RGB shipBG = new RGB("#70EEFF");
@@ -19,7 +19,7 @@ public class StatisticsLayer extends VerticalLayoutLayer {
 	private ArrayList<ShipLayer> ships = new ArrayList<>();
 
 	public StatisticsLayer() {
-		setMargin(3);
+		setMargins(3);
 	}
 
 	public void refresh(ArrayList<FTL> data) {

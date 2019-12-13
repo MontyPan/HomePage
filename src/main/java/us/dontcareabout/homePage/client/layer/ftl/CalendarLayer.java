@@ -12,8 +12,8 @@ import com.sencha.gxt.core.client.util.DateWrapper;
 
 import us.dontcareabout.gxt.client.draw.LRectangleSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
+import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.data.FTL;
-import us.dontcareabout.homePage.client.gf.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.ui.FtlView;
 import us.dontcareabout.homePage.client.ui.FtlView.ChangeRecordEvent;
 
@@ -22,7 +22,7 @@ class CalendarLayer extends VerticalLayoutLayer {
 	private int year;
 
 	public CalendarLayer() {
-		setMargin(4);
+		setMargins(4);
 
 		for (int i = 0; i < 12; i++) {
 			MonthLayer ml = new MonthLayer(i);
