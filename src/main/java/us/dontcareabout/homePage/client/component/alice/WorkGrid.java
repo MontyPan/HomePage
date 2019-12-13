@@ -11,26 +11,16 @@ import com.sencha.gxt.data.shared.SortDir;
 import com.sencha.gxt.data.shared.Store.StoreSortInfo;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
-import com.sencha.gxt.widget.core.client.grid.Grid;
 
+import us.dontcareabout.gxt.client.component.Grid2;
 import us.dontcareabout.homePage.client.data.AliceWork;
 
-public class WorkGrid extends Grid<AliceWork> {
+public class WorkGrid extends Grid2<AliceWork> {
 	private static Properties properties = GWT.create(Properties.class);
 
 	public WorkGrid() {
-		super(
-			new ListStore<>(new ModelKeyProvider<AliceWork>() {
-				@Override
-				public String getKey(AliceWork item) {
-					return item.getYear() + item.getArticle();
-				}
-			}),
-			genColumnModel()
-		);
-
+		init();
 		getView().setForceFit(true);
-		getStore().addSortInfo(new StoreSortInfo<>(properties.year(), SortDir.DESC));
 	}
 
 	public void refresh(ArrayList<AliceWork> data) {
@@ -38,7 +28,20 @@ public class WorkGrid extends Grid<AliceWork> {
 		getStore().addAll(data);
 	}
 
-	private static ColumnModel<AliceWork> genColumnModel() {
+	@Override
+	protected ListStore<AliceWork> genListStore() {
+		ListStore<AliceWork> result = new ListStore<>(new ModelKeyProvider<AliceWork>() {
+			@Override
+			public String getKey(AliceWork item) {
+				return item.getYear() + item.getArticle();
+			}
+		});
+		result.addSortInfo(new StoreSortInfo<>(properties.year(), SortDir.DESC));
+		return result;
+	}
+
+	@Override
+	protected ColumnModel<AliceWork> genColumnModel() {
 		ArrayList<ColumnConfig<AliceWork, ?>> list = new ArrayList<>();
 		list.add(new ColumnConfig<>(properties.year(), 50, "年份"));
 		list.add(new ColumnConfig<>(properties.type(), 100, "類型"));
@@ -57,4 +60,5 @@ public class WorkGrid extends Grid<AliceWork> {
 		ValueProvider<AliceWork, String> publish();
 		ValueProvider<AliceWork, Integer> year();
 	}
+
 }
