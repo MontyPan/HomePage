@@ -1,0 +1,93 @@
+package us.dontcareabout.homePage.client.layer.forSale;
+
+import com.sencha.gxt.chart.client.draw.Color;
+import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.core.client.util.Margins;
+
+import us.dontcareabout.gxt.client.draw.component.TextButton;
+import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
+import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
+import us.dontcareabout.homePage.client.ui.ForSaleView;
+
+public class PlayerLayer extends VerticalLayoutLayer {
+	private static final Color[] COLORS = {
+		new RGB("#43CC00"), new RGB("#000DB3"), new RGB("#FF8C52"),
+		new RGB("#00C2A1"), new RGB("#EC77FF"), RGB.BLACK
+	};
+
+	private TextButton nameMoney = new TextButton();
+	private HouseLayer houseLayer;
+
+	private final ForSaleView parent;
+	private final int index;
+	private final String name;
+
+	public PlayerLayer(ForSaleView parent, int index, int playerAmount) {
+		this.parent = parent;
+		this.index = index;
+		this.name = index == 0 ? "Me" : "Player " + (char)(64 + index);
+
+		houseLayer = new HouseLayer(playerAmount);
+
+		nameMoney.setBgColor(COLORS[index]);
+		nameMoney.setTextColor(RGB.WHITE);
+		setMoney(ForSaleView.INIT_MONEY[playerAmount - 3]);
+
+		addChild(nameMoney, 36);
+		addChild(new BidLayer(), 0.5);
+		addChild(houseLayer, 0.5);
+	}
+
+	private void setMoney(int value) {
+		nameMoney.setText(name + " : " + value);
+	}
+
+	class BidLayer extends HorizontalLayoutLayer {
+		TextButton bidMoney = new TextButton("10");
+
+		BidLayer() {
+			GrayButton pass = new GrayButton("pass");
+			GrayButton plus = new GrayButton("+");
+			GrayButton bid = new GrayButton("BID");
+
+			setMargins(3);
+			setGap(2);
+
+			addChild(pass, 60);
+			addChild(bidMoney, 1);
+			addChild(plus, 50);
+			addChild(bid, 60);
+		}
+	}
+
+	class HouseLayer extends HorizontalLayoutLayer {
+		final double unitWeight;
+
+		HouseLayer(int total) {
+			unitWeight = 1.0 / (ForSaleView.totalTurn(total));
+			setMargins(new Margins(2, 2, 6, 2));
+			setGap(2);
+		}
+
+		void addHouse(int value) {
+			addChild(new RedButton(value), unitWeight);
+		}
+	}
+
+	class GrayButton extends TextButton {
+		GrayButton(String text) {
+			super(text);
+			setBgRadius(5);
+			setBgColor(RGB.LIGHTGRAY);
+		}
+	}
+
+	class RedButton extends TextButton {
+		RedButton(int number) {
+			super("" + number);
+			setBgRadius(2);
+			setBgColor(RGB.RED);
+			setTextColor(RGB.WHITE);
+		}
+	}
+}
