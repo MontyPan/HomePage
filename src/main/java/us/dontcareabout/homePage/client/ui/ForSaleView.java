@@ -7,24 +7,20 @@ import us.dontcareabout.homePage.client.layer.forSale.NumberGridLayer;
 import us.dontcareabout.homePage.client.layer.forSale.PlayerLayer;
 
 public class ForSaleView extends LayerContainer {
-	public static final int[] INIT_MONEY = {18, 18, 14, 14};
-
-	public static final int totalTurn(int total) {
-		return 11 - total;
-	}
-
 	private HorizontalLayoutLayer root = new HorizontalLayoutLayer();
 	private VerticalLayoutLayer playerList = new VerticalLayoutLayer();
 	private NumberGridLayer numberGrid = new NumberGridLayer(this);
 
-	private int playerAmount = 4;
+	public Parameter param;
 
 	public ForSaleView() {
 		playerList.setMargins(2);
 		playerList.setGap(2);
 
-		for (int i = 0; i < playerAmount; i++) {
-			playerList.addChild(new PlayerLayer(this, i, playerAmount), 1.0 / playerAmount);
+		param = new Parameter(4);
+
+		for (int i = 0; i < param.playerAmount; i++) {
+			playerList.addChild(new PlayerLayer(this, i), 1.0 / param.playerAmount);
 		}
 
 		VerticalLayoutLayer boardVL = new VerticalLayoutLayer();
@@ -39,5 +35,25 @@ public class ForSaleView extends LayerContainer {
 	protected void onResize(int width, int height) {
 		root.resize(width, height);
 		super.onResize(width, height);
+	}
+
+	public static class Parameter {
+		private static final int[] INIT_MONEY = {18, 18, 14, 14};
+
+		public final int playerAmount;
+
+		private int nowTurn = 1;
+
+		public Parameter(int playerAmount) {
+			this.playerAmount = playerAmount;
+		}
+
+		public int getInitMoney() {
+			return INIT_MONEY[playerAmount - 3];
+		}
+
+		public int getTurnAmount() {
+			return 11 - playerAmount;
+		}
 	}
 }

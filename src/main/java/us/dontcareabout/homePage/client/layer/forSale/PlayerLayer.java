@@ -22,16 +22,16 @@ public class PlayerLayer extends VerticalLayoutLayer {
 	private final int index;
 	private final String name;
 
-	public PlayerLayer(ForSaleView parent, int index, int playerAmount) {
+	public PlayerLayer(ForSaleView parent, int index) {
 		this.parent = parent;
 		this.index = index;
 		this.name = index == 0 ? "Me" : "Player " + (char)(64 + index);
 
-		houseLayer = new HouseLayer(playerAmount);
+		houseLayer = new HouseLayer(parent.param.playerAmount);
 
 		nameMoney.setBgColor(COLORS[index]);
 		nameMoney.setTextColor(RGB.WHITE);
-		setMoney(ForSaleView.INIT_MONEY[playerAmount - 3]);
+		setMoney(parent.param.getInitMoney());
 
 		addChild(nameMoney, 36);
 		addChild(new BidLayer(), 0.5);
@@ -64,7 +64,7 @@ public class PlayerLayer extends VerticalLayoutLayer {
 		final double unitWeight;
 
 		HouseLayer(int total) {
-			unitWeight = 1.0 / (ForSaleView.totalTurn(total));
+			unitWeight = 1.0 / (parent.param.getTurnAmount());
 			setMargins(new Margins(2, 2, 6, 2));
 			setGap(2);
 		}
