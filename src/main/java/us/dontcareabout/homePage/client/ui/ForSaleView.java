@@ -13,7 +13,7 @@ public class ForSaleView extends LayerContainer {
 	private HorizontalLayoutLayer root = new HorizontalLayoutLayer();
 	private VerticalLayoutLayer playerList = new VerticalLayoutLayer();
 	private NumberGridLayer numberGrid = new NumberGridLayer(this);
-	private PoolLayer pool = new PoolLayer(this);
+	private PoolLayer poolLayer = new PoolLayer(this);
 
 	public Parameter param;
 
@@ -28,7 +28,7 @@ public class ForSaleView extends LayerContainer {
 		}
 
 		VerticalLayoutLayer boardVL = new VerticalLayoutLayer();
-		boardVL.addChild(pool, 300);
+		boardVL.addChild(poolLayer, 300);
 		boardVL.addChild(numberGrid, 1);
 
 		root.addChild(boardVL, 1);
@@ -37,9 +37,9 @@ public class ForSaleView extends LayerContainer {
 	}
 
 	public boolean deal(int number) {
-		if (param.pool.size() == param.playerAmount) { return false; }
+		if (param.isTurnReady()) { return false; }
 
-		pool.add(number);
+		poolLayer.add(number);
 		param.pool.add(number);
 		return true;
 	}
@@ -68,6 +68,10 @@ public class ForSaleView extends LayerContainer {
 
 		public int getTurnAmount() {
 			return 11 - playerAmount;
+		}
+
+		public boolean isTurnReady() {
+			return pool.size() == playerAmount;
 		}
 	}
 }
