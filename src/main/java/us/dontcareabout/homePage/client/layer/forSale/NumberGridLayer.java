@@ -1,6 +1,8 @@
 package us.dontcareabout.homePage.client.layer.forSale;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 
 import us.dontcareabout.gxt.client.draw.component.TextButton;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
@@ -28,7 +30,7 @@ public class NumberGridLayer extends VerticalLayoutLayer {
 			addChild(rows[i], 1.0 / ROW);
 		}
 
-		moneyMode();
+		houseMode();
 	}
 
 	public void houseMode() {
@@ -57,13 +59,23 @@ public class NumberGridLayer extends VerticalLayoutLayer {
 	}
 
 	private class NumberButton extends TextButton {
-		final int value;
+		final int number;
 
 		NumberButton(int value) {
-			this.value = value;
+			number = value;
 			setText("" + value);
 			setBgRadius(5);
 			setBgColor(RGB.PINK);
+
+			addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					if (NumberButton.this.isHidden()) { return; }
+					if (parent.deal(number)) {
+						NumberButton.this.setHidden(true);
+					}
+				}
+			});
 		}
 	}
 }

@@ -1,15 +1,19 @@
 package us.dontcareabout.homePage.client.ui;
 
+import java.util.ArrayList;
+
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.layer.forSale.NumberGridLayer;
 import us.dontcareabout.homePage.client.layer.forSale.PlayerLayer;
+import us.dontcareabout.homePage.client.layer.forSale.PoolLayer;
 
 public class ForSaleView extends LayerContainer {
 	private HorizontalLayoutLayer root = new HorizontalLayoutLayer();
 	private VerticalLayoutLayer playerList = new VerticalLayoutLayer();
 	private NumberGridLayer numberGrid = new NumberGridLayer(this);
+	private PoolLayer pool = new PoolLayer(this);
 
 	public Parameter param;
 
@@ -24,11 +28,20 @@ public class ForSaleView extends LayerContainer {
 		}
 
 		VerticalLayoutLayer boardVL = new VerticalLayoutLayer();
+		boardVL.addChild(pool, 300);
 		boardVL.addChild(numberGrid, 1);
 
 		root.addChild(boardVL, 1);
 		root.addChild(playerList, 300);
 		addLayer(root);
+	}
+
+	public boolean deal(int number) {
+		if (param.pool.size() == param.playerAmount) { return false; }
+
+		pool.add(number);
+		param.pool.add(number);
+		return true;
 	}
 
 	@Override
@@ -43,6 +56,7 @@ public class ForSaleView extends LayerContainer {
 		public final int playerAmount;
 
 		private int nowTurn = 1;
+		private ArrayList<Integer> pool = new ArrayList<>();
 
 		public Parameter(int playerAmount) {
 			this.playerAmount = playerAmount;
