@@ -2,6 +2,8 @@ package us.dontcareabout.homePage.client.layer.forSale;
 
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 import com.sencha.gxt.core.client.util.Margins;
 
 import us.dontcareabout.gxt.client.draw.component.TextButton;
@@ -38,6 +40,10 @@ public class PlayerLayer extends VerticalLayoutLayer {
 		addChild(houseLayer, 0.5);
 	}
 
+	public void recieve(int house) {
+		houseLayer.addHouse(house);
+	}
+
 	private void setMoney(int value) {
 		nameMoney.setText(name + " : " + value);
 	}
@@ -57,6 +63,13 @@ public class PlayerLayer extends VerticalLayoutLayer {
 			addChild(bidMoney, 1);
 			addChild(plus, 50);
 			addChild(bid, 60);
+
+			pass.addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					parent.pass(index);
+				}
+			});
 		}
 	}
 
@@ -71,6 +84,9 @@ public class PlayerLayer extends VerticalLayoutLayer {
 
 		void addHouse(int value) {
 			addChild(new RedButton(value), unitWeight);
+			redeploy();
+			redraw();
+			adjustMember();
 		}
 	}
 
@@ -90,4 +106,5 @@ public class PlayerLayer extends VerticalLayoutLayer {
 			setTextColor(RGB.WHITE);
 		}
 	}
+
 }

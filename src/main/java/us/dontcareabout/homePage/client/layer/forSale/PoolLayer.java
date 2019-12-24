@@ -2,6 +2,7 @@ package us.dontcareabout.homePage.client.layer.forSale;
 
 import com.sencha.gxt.chart.client.draw.RGB;
 
+import us.dontcareabout.gxt.client.draw.LSprite;
 import us.dontcareabout.gxt.client.draw.component.TextButton;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.homePage.client.ui.ForSaleView;
@@ -22,6 +23,16 @@ public 	class PoolLayer extends HorizontalLayoutLayer {
 		adjustMember();
 	}
 
+	public void hide(int value) {
+		for (LSprite ls : getMembers()) {
+			if (!(ls instanceof NumberButton)) { continue; }
+			if (((NumberButton)ls).number == value) {
+				ls.setHidden(true);
+				break;
+			}
+		}
+	}
+
 	private class NumberButton extends TextButton {
 		final int number;
 
@@ -33,4 +44,5 @@ public 	class PoolLayer extends HorizontalLayoutLayer {
 			setTextColor(RGB.WHITE);
 		}
 	}
+
 }
