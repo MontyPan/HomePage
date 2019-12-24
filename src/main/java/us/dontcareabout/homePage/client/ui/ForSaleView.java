@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import com.sencha.gxt.chart.client.draw.Color;
+import com.sencha.gxt.chart.client.draw.RGB;
+
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
@@ -22,8 +25,8 @@ public class ForSaleView extends LayerContainer {
 	public Parameter param;
 
 	public ForSaleView() {
-		playerList.setMargins(2);
-		playerList.setGap(2);
+		playerList.setMargins(5);
+		playerList.setGap(10);
 
 		param = new Parameter(5, 3);//TODO magic number
 
@@ -33,6 +36,8 @@ public class ForSaleView extends LayerContainer {
 			playerList.addChild(pl, 1.0 / param.playerAmount);
 			players[i] = pl;
 		}
+
+		switchNowPlayer();
 
 		VerticalLayoutLayer boardVL = new VerticalLayoutLayer();
 		boardVL.addChild(poolLayer, 300);
@@ -59,8 +64,12 @@ public class ForSaleView extends LayerContainer {
 		players[player].recieve(house);
 		poolLayer.hide(house);
 
+		//懶得作最後一位自動 pass 的功能... [逃]
+
 		if (param.playerEnd(player)) {
 			poolLayer.clear();
+		} else {
+			switchNowPlayer();
 		}
 	}
 
@@ -69,6 +78,13 @@ public class ForSaleView extends LayerContainer {
 		root.resize(width, height);
 		super.onResize(width, height);
 	}
+
+	private void switchNowPlayer() {
+		for (int i = 0; i < param.playerAmount; i++) {
+			players[i].setBgColor(i == param.nowPlayer ? RGB.YELLOW : Color.NONE);
+		}
+	}
+
 
 	public static class Parameter {
 		private static final int[] INIT_MONEY = {18, 18, 14, 14};
@@ -126,9 +142,6 @@ public class ForSaleView extends LayerContainer {
 
 			if (counter == playerAmount) {
 				newTurn();
-				//觸發結束回合的玩家就是下一回合的起始玩家
-				//還要再多作一次才會回到自己
-				nowPlayer++;
 			}
 
 			nowPlayer = nowPlayer % playerAmount;
