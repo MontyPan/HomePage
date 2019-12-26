@@ -68,6 +68,8 @@ public class ForSaleView extends LayerContainer {
 
 		if (param.playerEnd(player)) {
 			poolLayer.clear();
+			param.nowPrice = 0;
+			updateLowestPrice();
 		} else {
 			players[player].returnBid();
 			switchNowPlayer();
@@ -95,7 +97,14 @@ public class ForSaleView extends LayerContainer {
 	private void switchNowPlayer() {
 		for (int i = 0; i < param.playerAmount; i++) {
 			players[i].setBgColor(i == param.nowPlayer ? RGB.YELLOW : Color.NONE);
-			//懶得作細部調整了，全部都改 XD
+		}
+
+		//懶得作細部調整了，全部都改 XD
+		updateLowestPrice();
+	}
+
+	private void updateLowestPrice() {
+		for (int i = 0; i < param.playerAmount; i++) {
 			players[i].lowestPrice(param.nowPrice);
 		}
 	}
