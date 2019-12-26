@@ -73,6 +73,18 @@ public class ForSaleView extends LayerContainer {
 		}
 	}
 
+	//因為可能會改變 PlayerLayer 的金額，所以透過 return 值來判斷要不要改變
+	//很爛的作法...... (艸
+	public boolean bid(int player, int value) {
+		if (!param.turnReady) { return false; }
+		if (player != param.nowPlayer) { return false; }
+
+		param.nowPrice = value;
+		param.playerBid(player);
+		switchNowPlayer();
+		return true;
+	}
+
 	@Override
 	protected void onResize(int width, int height) {
 		root.resize(width, height);
@@ -151,6 +163,13 @@ public class ForSaleView extends LayerContainer {
 			nowPlayer = nowPlayer % playerAmount;
 
 			return counter == playerAmount;
+		}
+
+		private void playerBid(int player) {
+			//bid 不會導致結束回合，所以只要找下一個沒 pass 的玩家就好
+			do {
+				nowPlayer = (nowPlayer + 1) % playerAmount;
+			} while(playerPass[nowPlayer]);
 		}
 	}
 }
