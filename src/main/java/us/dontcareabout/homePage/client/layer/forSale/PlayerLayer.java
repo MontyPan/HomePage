@@ -23,6 +23,8 @@ public class PlayerLayer extends VerticalLayoutLayer {
 
 	private final ForSaleView parent;
 	private final int index;
+	private int money;
+	private int bidPrice;
 	private final String name;
 
 	public PlayerLayer(ForSaleView parent, int index) {
@@ -49,8 +51,16 @@ public class PlayerLayer extends VerticalLayoutLayer {
 		bidLayer.setPrice(price + 1);
 	}
 
+	public void returnBid() {
+		setMoney(
+			money +
+			(parent.param.floorMode ? (int)Math.floor(bidPrice / 2.0) : (int)Math.ceil(bidPrice / 2.0))
+		);
+	}
+
 	private void setMoney(int value) {
-		nameMoney.setText(name + " : " + value);
+		money = value;
+		nameMoney.setText(name + " : " + money);
 	}
 
 	class BidLayer extends HorizontalLayoutLayer {
@@ -79,6 +89,16 @@ public class PlayerLayer extends VerticalLayoutLayer {
 				@Override
 				public void onSpriteSelect(SpriteSelectionEvent event) {
 					parent.pass(index);
+				}
+			});
+			bid.addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					bidPrice = getPrice();
+
+					if (parent.bid(index, bidPrice)) {
+						setMoney(money - bidPrice);
+					}
 				}
 			});
 		}
@@ -125,5 +145,4 @@ public class PlayerLayer extends VerticalLayoutLayer {
 			setTextColor(RGB.WHITE);
 		}
 	}
-
 }

@@ -69,6 +69,7 @@ public class ForSaleView extends LayerContainer {
 		if (param.playerEnd(player)) {
 			poolLayer.clear();
 		} else {
+			players[player].returnBid();
 			switchNowPlayer();
 		}
 	}
@@ -105,6 +106,9 @@ public class ForSaleView extends LayerContainer {
 
 		public final int playerAmount;
 
+		/** pass 時是否返回向下取整的金額 */
+		public final boolean floorMode;
+
 		private boolean turnReady;
 		private int nowTurn = 1;
 		private int nowPrice;
@@ -113,7 +117,12 @@ public class ForSaleView extends LayerContainer {
 		private ArrayList<Integer> pool = new ArrayList<>();
 
 		public Parameter(int playerAmount, int startPlayer) {
+			this(playerAmount, startPlayer, true);
+		}
+
+		public Parameter(int playerAmount, int startPlayer, boolean floorMode) {
 			this.playerAmount = playerAmount;
+			this.floorMode = floorMode;
 			playerPass = new boolean[playerAmount];
 			nowPlayer = startPlayer;
 		}
