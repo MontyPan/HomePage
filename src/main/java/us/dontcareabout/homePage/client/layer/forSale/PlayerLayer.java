@@ -18,6 +18,7 @@ public class PlayerLayer extends VerticalLayoutLayer {
 	};
 
 	private TextButton nameMoney = new TextButton();
+	private BidLayer bidLayer = new BidLayer();
 	private HouseLayer houseLayer;
 
 	private final ForSaleView parent;
@@ -36,7 +37,7 @@ public class PlayerLayer extends VerticalLayoutLayer {
 		setMoney(parent.param.getInitMoney());
 
 		addChild(nameMoney, 36);
-		addChild(new BidLayer(), 0.5);
+		addChild(bidLayer, 0.5);
 		addChild(houseLayer, 0.5);
 	}
 
@@ -44,12 +45,16 @@ public class PlayerLayer extends VerticalLayoutLayer {
 		houseLayer.addHouse(house);
 	}
 
+	public void lowestPrice(int price) {
+		bidLayer.setPrice(price + 1);
+	}
+
 	private void setMoney(int value) {
 		nameMoney.setText(name + " : " + value);
 	}
 
 	class BidLayer extends HorizontalLayoutLayer {
-		TextButton bidMoney = new TextButton("10");
+		TextButton bidMoney = new TextButton("00");
 
 		BidLayer() {
 			GrayButton pass = new GrayButton("pass");
@@ -64,12 +69,26 @@ public class PlayerLayer extends VerticalLayoutLayer {
 			addChild(plus, 50);
 			addChild(bid, 60);
 
+			plus.addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					setPrice(getPrice() + 1);
+				}
+			});
 			pass.addSpriteSelectionHandler(new SpriteSelectionHandler() {
 				@Override
 				public void onSpriteSelect(SpriteSelectionEvent event) {
 					parent.pass(index);
 				}
 			});
+		}
+
+		void setPrice(int price) {
+			bidMoney.setText("" + price);
+		}
+
+		int getPrice() {
+			return Integer.parseInt(bidMoney.getText());
 		}
 	}
 
