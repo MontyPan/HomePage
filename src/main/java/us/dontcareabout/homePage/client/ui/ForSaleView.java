@@ -82,6 +82,8 @@ public class ForSaleView extends LayerContainer {
 	private void switchNowPlayer() {
 		for (int i = 0; i < param.playerAmount; i++) {
 			players[i].setBgColor(i == param.nowPlayer ? RGB.YELLOW : Color.NONE);
+			//懶得作細部調整了，全部都改 XD
+			players[i].lowestPrice(param.nowPrice);
 		}
 	}
 
@@ -91,8 +93,9 @@ public class ForSaleView extends LayerContainer {
 
 		public final int playerAmount;
 
-		private int nowTurn = 1;
 		private boolean turnReady;
+		private int nowTurn = 1;
+		private int nowPrice;
 		private int nowPlayer;
 		private boolean[] playerPass;
 		private ArrayList<Integer> pool = new ArrayList<>();
@@ -114,6 +117,7 @@ public class ForSaleView extends LayerContainer {
 		public void newTurn() {
 			//TODO 切換 mode
 			nowTurn++;
+			nowPrice = 0;
 			turnReady = false;
 			pool.clear();
 			Arrays.fill(playerPass, false);
