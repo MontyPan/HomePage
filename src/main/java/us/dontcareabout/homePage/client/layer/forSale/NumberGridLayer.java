@@ -41,6 +41,10 @@ public class NumberGridLayer extends VerticalLayoutLayer {
 				rows[i].addChild(new NumberButton(i * COL + i2 + 1), 1.0 / COL);
 			}
 		}
+
+		redeploy();
+		redraw();
+		adjustMember();
 	}
 
 	public void moneyMode() {
@@ -56,6 +60,10 @@ public class NumberGridLayer extends VerticalLayoutLayer {
 			rows[counter / 5].addChild(new NumberButton(i), 1.0 / COL);
 			counter++;
 		}
+
+		redeploy();
+		redraw();
+		adjustMember();
 	}
 
 	private class NumberButton extends TextButton {
