@@ -57,8 +57,7 @@ public class ForSaleView extends LayerContainer {
 	}
 
 	public void pass(int player) {
-		if (!param.turnReady) { return; }
-		if (player != param.nowPlayer) { return; }
+		if (!param.isMyTurn(player) || !param.bidMode) { return; }
 
 		int house = param.pool.remove(0);
 		players[player].recieve(house);
@@ -70,17 +69,21 @@ public class ForSaleView extends LayerContainer {
 			poolLayer.clear();
 			param.nowPrice = 0;
 			updateLowestPrice();
+
+			if (!param.bidMode) {
+				numberGrid.moneyMode();
+			}
 		} else {
 			players[player].returnBid();
-			switchNowPlayer();
 		}
+
+		switchNowPlayer();
 	}
 
 	//因為可能會改變 PlayerLayer 的金額，所以透過 return 值來判斷要不要改變
 	//很爛的作法...... (艸
 	public boolean bid(int player, int value) {
-		if (!param.turnReady) { return false; }
-		if (player != param.nowPlayer) { return false; }
+		if (!param.isMyTurn(player) || !param.bidMode) { return false; }
 
 		param.nowPrice = value;
 		param.playerBid(player);
@@ -96,7 +99,7 @@ public class ForSaleView extends LayerContainer {
 
 	private void switchNowPlayer() {
 		for (int i = 0; i < param.playerAmount; i++) {
-			players[i].setBgColor(i == param.nowPlayer ? RGB.YELLOW : Color.NONE);
+			players[i].setBgColor(!param.bidMode || i != param.nowPlayer ? Color.NONE : RGB.YELLOW);
 		}
 
 		//懶得作細部調整了，全部都改 XD
@@ -118,6 +121,7 @@ public class ForSaleView extends LayerContainer {
 		/** pass 時是否返回向下取整的金額 */
 		public final boolean floorMode;
 
+		private boolean bidMode = true;
 		private boolean turnReady;
 		private int nowTurn = 1;
 		private int nowPrice;
@@ -144,8 +148,17 @@ public class ForSaleView extends LayerContainer {
 			return 11 - playerAmount;
 		}
 
-		public void newTurn() {
-			//TODO 切換 mode
+		private boolean isMyTurn(int player) {
+			return turnReady && nowPlayer == player;
+		}
+
+		private void newTurn() {
+			if (nowTurn == getTurnAmount()) {
+				if (bidMode) {
+					bidMode = !bidMode;
+					nowTurn = 0;	//反正等一下會加回來
+				}
+			}
 			nowTurn++;
 			nowPrice = 0;
 			turnReady = false;
