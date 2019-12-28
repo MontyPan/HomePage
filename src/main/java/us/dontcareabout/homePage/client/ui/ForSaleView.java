@@ -7,6 +7,8 @@ import java.util.Collections;
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
+import us.dontcareabout.homePage.client.Util;
+import us.dontcareabout.homePage.client.component.forSale.ParamPanel;
 import us.dontcareabout.homePage.client.layer.forSale.NumberGridLayer;
 import us.dontcareabout.homePage.client.layer.forSale.PlayerListLayer;
 import us.dontcareabout.homePage.client.layer.forSale.PoolLayer;
@@ -16,6 +18,7 @@ public class ForSaleView extends LayerContainer {
 	private PlayerListLayer playerList = new PlayerListLayer(this);
 	private NumberGridLayer numberGrid = new NumberGridLayer(this);
 	private PoolLayer poolLayer = new PoolLayer(this);
+	private ParamPanel paramPanel = new ParamPanel(this);
 
 	public Parameter param;
 
@@ -31,11 +34,11 @@ public class ForSaleView extends LayerContainer {
 		root.addChild(playerList, 300);
 		addLayer(root);
 
-		start(5, 3);
+		Util.showDialog(paramPanel, 250, 160);
 	}
 
-	public void start(int playerAmount, int startIndex) {
-		param = new Parameter(playerAmount, startIndex);
+	public void start(int playerAmount, int startIndex, boolean isFloor) {
+		param = new Parameter(playerAmount, startIndex, isFloor);
 		playerList.init();
 		switchNowPlayer();
 	}
@@ -125,10 +128,6 @@ public class ForSaleView extends LayerContainer {
 		private boolean[] playerPass;
 		private int[] playerSell;
 		private ArrayList<Integer> pool = new ArrayList<>();
-
-		public Parameter(int playerAmount, int startPlayer) {
-			this(playerAmount, startPlayer, true);
-		}
 
 		public Parameter(int playerAmount, int startPlayer, boolean floorMode) {
 			this.playerAmount = playerAmount;
