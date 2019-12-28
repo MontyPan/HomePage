@@ -4,40 +4,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import com.sencha.gxt.chart.client.draw.Color;
-import com.sencha.gxt.chart.client.draw.RGB;
-
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.layer.forSale.NumberGridLayer;
-import us.dontcareabout.homePage.client.layer.forSale.PlayerLayer;
+import us.dontcareabout.homePage.client.layer.forSale.PlayerListLayer;
 import us.dontcareabout.homePage.client.layer.forSale.PoolLayer;
 
 public class ForSaleView extends LayerContainer {
 	private HorizontalLayoutLayer root = new HorizontalLayoutLayer();
-	private VerticalLayoutLayer playerList = new VerticalLayoutLayer();
+	private PlayerListLayer playerList = new PlayerListLayer(this);
 	private NumberGridLayer numberGrid = new NumberGridLayer(this);
 	private PoolLayer poolLayer = new PoolLayer(this);
-
-	private PlayerLayer[] players;
 
 	public Parameter param;
 
 	public ForSaleView() {
 		playerList.setMargins(5);
 		playerList.setGap(10);
-
-		param = new Parameter(5, 3);//TODO magic number
-
-		players = new PlayerLayer[param.playerAmount];
-		for (int i = 0; i < param.playerAmount; i++) {
-			PlayerLayer pl = new PlayerLayer(this, i);
-			playerList.addChild(pl, 1.0 / param.playerAmount);
-			players[i] = pl;
-		}
-
-		switchNowPlayer();
 
 		VerticalLayoutLayer boardVL = new VerticalLayoutLayer();
 		boardVL.addChild(poolLayer, 300);
@@ -46,6 +30,14 @@ public class ForSaleView extends LayerContainer {
 		root.addChild(boardVL, 1);
 		root.addChild(playerList, 300);
 		addLayer(root);
+
+		start(5, 3);
+	}
+
+	public void start(int playerAmount, int startIndex) {
+		param = new Parameter(playerAmount, startIndex);
+		playerList.init();
+		switchNowPlayer();
 	}
 
 	public boolean deal(int number) {
@@ -60,7 +52,7 @@ public class ForSaleView extends LayerContainer {
 		if (!param.isMyTurn(player) || !param.bidMode) { return; }
 
 		int house = param.pool.remove(0);
-		players[player].recieve(house);
+		playerList.recieve(player, house);
 		poolLayer.hide(house);
 
 		//懶得作最後一位自動 pass 的功能... [逃]
@@ -68,13 +60,13 @@ public class ForSaleView extends LayerContainer {
 		if (param.playerEnd(player)) {
 			poolLayer.clear();
 			param.nowPrice = 0;
-			updateLowestPrice();
+			playerList.updateLowestPrice();
 
 			if (!param.bidMode) {
 				numberGrid.moneyMode();
 			}
 		} else {
-			players[player].returnBid();
+			playerList.returnBid(player);
 		}
 
 		switchNowPlayer();
@@ -112,20 +104,10 @@ public class ForSaleView extends LayerContainer {
 	}
 
 	private void switchNowPlayer() {
-		for (int i = 0; i < param.playerAmount; i++) {
-			players[i].setBgColor(!param.bidMode || i != param.nowPlayer ? Color.NONE : RGB.YELLOW);
-		}
-
+		playerList.changeBg();
 		//懶得作細部調整了，全部都改 XD
-		updateLowestPrice();
+		playerList.updateLowestPrice();
 	}
-
-	private void updateLowestPrice() {
-		for (int i = 0; i < param.playerAmount; i++) {
-			players[i].lowestPrice(param.nowPrice);
-		}
-	}
-
 
 	public static class Parameter {
 		private static final int[] INIT_MONEY = {18, 18, 14, 14};
@@ -166,6 +148,18 @@ public class ForSaleView extends LayerContainer {
 
 		private boolean isMyTurn(int player) {
 			return turnReady && nowPlayer == player;
+		}
+
+		public boolean isBidMode() {
+			return bidMode;
+		}
+
+		public int getNowPrice() {
+			return nowPrice;
+		}
+
+		public int getNowPlayer() {
+			return nowPlayer;
 		}
 
 		private void newTurn() {
