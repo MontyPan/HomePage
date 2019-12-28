@@ -121,8 +121,17 @@ public class PlayerLayer extends VerticalLayoutLayer {
 			setGap(2);
 		}
 
-		void addHouse(int value) {
-			addChild(new RedButton(value), unitWeight);
+		void addHouse(final int value) {
+			final RedButton house = new RedButton(value);
+			house.addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					if (parent.sell(index, value)) {
+						house.setHidden(true);
+					}
+				}
+			});
+			addChild(house, unitWeight);
 			redeploy();
 			redraw();
 			adjustMember();
