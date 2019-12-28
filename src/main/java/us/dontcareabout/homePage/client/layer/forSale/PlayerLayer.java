@@ -98,10 +98,11 @@ class PlayerLayer extends VerticalLayoutLayer {
 			bid.addSpriteSelectionHandler(new SpriteSelectionHandler() {
 				@Override
 				public void onSpriteSelect(SpriteSelectionEvent event) {
+					int prePrice = bidPrice;
 					bidPrice = getPrice();
 
 					if (parent.bid(index, bidPrice)) {
-						setMoney(money - bidPrice);
+						setMoney(money - bidPrice + prePrice);
 					}
 				}
 			});
