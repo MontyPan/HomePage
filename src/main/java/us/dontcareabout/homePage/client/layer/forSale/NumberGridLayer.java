@@ -42,9 +42,11 @@ public class NumberGridLayer extends VerticalLayoutLayer {
 			}
 		}
 
-		redeploy();
-		redraw();
-		adjustMember();
+		try {
+			redeploy();
+			redraw();
+			adjustMember();
+		} catch (Exception e) {}
 	}
 
 	public void moneyMode() {
