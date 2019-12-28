@@ -91,6 +91,20 @@ public class ForSaleView extends LayerContainer {
 		return true;
 	}
 
+	public boolean sell(int index, int house) {
+		if (param.bidMode || !param.turnReady) { return false; }
+		if (param.playerSell[index] != 0) { return false; }
+
+		param.playerSell[index] = house;
+
+		if (param.allSell()) {
+			poolLayer.clear();
+			param.sellEnd();
+			//懶得把金額加回去了 XD
+		}
+		return true;
+	}
+
 	@Override
 	protected void onResize(int width, int height) {
 		root.resize(width, height);
@@ -127,6 +141,7 @@ public class ForSaleView extends LayerContainer {
 		private int nowPrice;
 		private int nowPlayer;
 		private boolean[] playerPass;
+		private int[] playerSell;
 		private ArrayList<Integer> pool = new ArrayList<>();
 
 		public Parameter(int playerAmount, int startPlayer) {
@@ -137,6 +152,7 @@ public class ForSaleView extends LayerContainer {
 			this.playerAmount = playerAmount;
 			this.floorMode = floorMode;
 			playerPass = new boolean[playerAmount];
+			playerSell = new int[playerAmount];
 			nowPlayer = startPlayer;
 		}
 
@@ -201,6 +217,21 @@ public class ForSaleView extends LayerContainer {
 			do {
 				nowPlayer = (nowPlayer + 1) % playerAmount;
 			} while(playerPass[nowPlayer]);
+		}
+
+		private boolean allSell() {
+			for (int i : playerSell) {
+				if (i == 0) { return false; }
+			}
+
+			return true;
+		}
+
+		private void sellEnd() {
+			nowTurn++;
+			turnReady = false;
+			pool.clear();
+			Arrays.fill(playerSell, 0);
 		}
 	}
 }
