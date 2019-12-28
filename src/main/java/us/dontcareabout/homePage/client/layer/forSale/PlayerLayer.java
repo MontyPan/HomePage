@@ -11,7 +11,7 @@ import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.ui.ForSaleView;
 
-public class PlayerLayer extends VerticalLayoutLayer {
+class PlayerLayer extends VerticalLayoutLayer {
 	private static final Color[] COLORS = {
 		new RGB("#43CC00"), new RGB("#000DB3"), new RGB("#FF8C52"),
 		new RGB("#00C2A1"), new RGB("#EC77FF"), RGB.BLACK
@@ -49,6 +49,10 @@ public class PlayerLayer extends VerticalLayoutLayer {
 
 	public void lowestPrice(int price) {
 		bidLayer.setPrice(price + 1);
+	}
+
+	public void resetBidPrice() {
+		bidPrice = 0;
 	}
 
 	public void returnBid() {

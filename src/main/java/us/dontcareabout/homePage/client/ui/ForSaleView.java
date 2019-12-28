@@ -64,6 +64,7 @@ public class ForSaleView extends LayerContainer {
 			poolLayer.clear();
 			param.nowPrice = 0;
 			playerList.updateLowestPrice();
+			playerList.resetBidPrice();
 
 			if (!param.bidMode) {
 				numberGrid.moneyMode();

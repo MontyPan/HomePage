@@ -45,4 +45,10 @@ public class PlayerListLayer extends VerticalLayoutLayer {
 	public void recieve(int player, int house) {
 		players[player].recieve(house);
 	}
+
+	public void resetBidPrice() {
+		for (PlayerLayer pl : players) {
+			pl.resetBidPrice();
+		}
+	}
 }
