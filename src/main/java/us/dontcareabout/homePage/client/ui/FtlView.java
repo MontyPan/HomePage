@@ -39,9 +39,8 @@ public class FtlView extends LayerContainer {
 	}
 
 	@Override
-	protected void onResize(int width, int height) {
+	protected void adjustMember(int width, int height) {
 		layout.resize(width, height);
-		super.onResize(width, height);
 	}
 
 	private void refresh(ArrayList<FTL> data) {
