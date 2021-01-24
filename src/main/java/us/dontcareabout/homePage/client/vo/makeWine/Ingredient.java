@@ -3,8 +3,9 @@ package us.dontcareabout.homePage.client.vo.makeWine;
 public enum Ingredient {
 	blackBean("黑豆 1 斤", 45, Type.base),
 
+	vat5L("酒罈 (5L)", 230, Type.vat),
+
 	longan("龍眼 4 兩", 95, Type.other),
-	vat5L("酒罈 (5L)", 230, Type.other),
 
 	rice("米酒", 25),
 	ricePure("純米酒", 90),
@@ -28,6 +29,6 @@ public enum Ingredient {
 	}
 
 	public enum Type {
-		base, wine, other
+		base, wine, vat, other
 	}
 }
