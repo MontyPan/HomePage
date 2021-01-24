@@ -6,21 +6,30 @@ import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelect
 
 import us.dontcareabout.gxt.client.draw.component.TextButton;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
+import us.dontcareabout.homePage.client.ui.event.UiCenter;
+import us.dontcareabout.homePage.client.vo.makeWine.Ingredient;
 
 public class AmountLayer extends HorizontalLayoutLayer {
+	private final Ingredient ingredient;
+
 	private int amount = 0;
+	private int max = Integer.MAX_VALUE;
 
 	private Button minus = new Button(false);
-	private TextButton amountTB = new TextButton();
+	private TextButton amountTB = new TextButton("0");
 	private Button plus = new Button(true);
 
-	public AmountLayer() {
+	public AmountLayer(Ingredient igdnt) {
+		ingredient = igdnt;
+
 		setMargins(5);
 		addChild(minus, 0.2);
 		addChild(amountTB, 0.6);
 		addChild(plus, 0.2);
+	}
 
-		setAmount(0);
+	public void setMax(int value) {
+		max = value;
 	}
 
 	public int getAmount() {
@@ -28,8 +37,11 @@ public class AmountLayer extends HorizontalLayoutLayer {
 	}
 
 	private void setAmount(int value) {
+		if (amount == value) { return; }
+
 		amount = value;
 		amountTB.setText("" + value);
+		UiCenter.amountChange(ingredient, amount);
 	}
 
 	private class Button extends TextButton {
@@ -43,7 +55,7 @@ public class AmountLayer extends HorizontalLayoutLayer {
 				@Override
 				public void onSpriteSelect(SpriteSelectionEvent event) {
 					if (isPlus) {
-						setAmount(getAmount() + 1);
+						setAmount(Math.min(max, getAmount() + 1));
 					} else {
 						setAmount(Math.max(0, getAmount() - 1));
 					}
