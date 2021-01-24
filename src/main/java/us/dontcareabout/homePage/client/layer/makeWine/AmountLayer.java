@@ -29,7 +29,7 @@ public class AmountLayer extends HorizontalLayoutLayer {
 	}
 
 	public void setMax(int value) {
-		max = value;
+		max = value + amount;
 	}
 
 	public int getAmount() {
