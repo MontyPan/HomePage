@@ -3,12 +3,13 @@ package us.dontcareabout.homePage.client.ui;
 import java.util.HashMap;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.core.client.util.Margins;
 
 import us.dontcareabout.gxt.client.draw.LRectangleSprite;
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
-import us.dontcareabout.homePage.client.layer.makeWine.Base_VatLayer;
+import us.dontcareabout.homePage.client.layer.makeWine.IngredientLayer;
 import us.dontcareabout.homePage.client.layer.makeWine.OtherLayer;
 import us.dontcareabout.homePage.client.layer.makeWine.SummaryLayer;
 import us.dontcareabout.homePage.client.layer.makeWine.WineLayer;
@@ -25,7 +26,6 @@ public class MakeWineView extends LayerContainer {
 	private VerticalLayoutLayer root = new VerticalLayoutLayer();
 	private WineLayer wineLayer = new WineLayer();
 	private OtherLayer otherLayer = new OtherLayer();
-	private Base_VatLayer baseVatLayer = new Base_VatLayer();
 	private SummaryLayer summaryLayer = new SummaryLayer();
 
 	public MakeWineView() {
@@ -34,9 +34,12 @@ public class MakeWineView extends LayerContainer {
 		double unit = 1.0 / (Ingredient.values().length + 3);
 
 		root.addChild(wineLayer, unit * 6);
+		root.addChild(new BR(RGB.LIGHTGRAY), 5);
 		root.addChild(otherLayer, unit * 2);
 		root.addChild(new BR(RGB.LIGHTGRAY), 5);
-		root.addChild(baseVatLayer, unit * 2);
+		root.addChild(new SingleIngredientLayer(Ingredient.vat5L), unit);
+		root.addChild(new BR(RGB.LIGHTGRAY), 5);
+		root.addChild(new SingleIngredientLayer(Ingredient.blackBean), unit);
 		root.addChild(new BR(RGB.DARKGRAY), 8);
 		root.addChild(summaryLayer, unit);
 
@@ -141,6 +144,14 @@ public class MakeWineView extends LayerContainer {
 			line.setLX(getWidth() * 0.1);;
 			line.setWidth(getWidth() * 0.8);
 			line.setHeight(getHeight());
+		}
+	}
+
+	//純粹是為了要向右內縮而搞出來的無聊東西
+	private class SingleIngredientLayer extends VerticalLayoutLayer {
+		SingleIngredientLayer(Ingredient igdnt) {
+			setMargins(new Margins(5, 5, 5, 55));
+			addChild(new IngredientLayer(igdnt), 1);
 		}
 	}
 }
