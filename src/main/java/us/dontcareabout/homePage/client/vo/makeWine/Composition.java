@@ -39,13 +39,14 @@ public class Composition {
 	}
 
 	/**
-	 * @return 酒類組成
+	 * @return 酒類組成，只有數量大於 0 的才會列入
 	 */
 	public HashMap<Ingredient, Integer> getWineComposition() {
 		HashMap<Ingredient, Integer> result = new HashMap<>();
 
 		for (Ingredient igdnt : map.keySet()) {
 			if (igdnt.type != Type.wine) { continue; }
+			if (map.get(igdnt) == 0) { continue; }
 
 			result.put(igdnt, map.get(igdnt));
 		}
