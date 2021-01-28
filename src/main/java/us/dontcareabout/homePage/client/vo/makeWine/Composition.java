@@ -58,6 +58,14 @@ public class Composition {
 		return map.get(Ingredient.blackBean);
 	}
 
+	public int getVat() {
+		return map.get(Ingredient.vat5L);
+	}
+
+	public int getLongan() {
+		return map.get(Ingredient.longan);
+	}
+
 	/**
 	 * @return 總金額
 	 */
