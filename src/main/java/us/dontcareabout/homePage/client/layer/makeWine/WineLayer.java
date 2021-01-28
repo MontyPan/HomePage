@@ -12,9 +12,5 @@ public class WineLayer extends TitleContentLayer {
 		for (IngredientLayer il : getItemList()) {
 			il.setMaxAmount(remainder);
 		}
-
-		if (remainder == 0) { return; }
-
-		setComment("還需要加 " + remainder + " 瓶酒");
 	}
 }
