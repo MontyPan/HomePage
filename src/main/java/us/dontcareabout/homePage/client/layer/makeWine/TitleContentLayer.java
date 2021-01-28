@@ -25,7 +25,7 @@ class TitleContentLayer extends VerticalLayoutLayer {
 		setGap(5);
 
 		titleTB.setText(title);
-		commentTB.setMargin(20);
+		commentTB.setMargin(5);
 
 		titleL.setGap(5);
 		titleL.addChild(titleTB, 0.2);
@@ -49,11 +49,11 @@ class TitleContentLayer extends VerticalLayoutLayer {
 		addChild(itemL, 1 - weight);
 	}
 
-	List<IngredientLayer> getItemList() {
-		return itemList;
+	public void setComment(String comment) {
+		commentTB.setText(comment);
 	}
 
-	void setComment(String comment) {
-		commentTB.setText(comment);
+	List<IngredientLayer> getItemList() {
+		return itemList;
 	}
 }
