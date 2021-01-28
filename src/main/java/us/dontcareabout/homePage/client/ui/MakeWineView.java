@@ -3,6 +3,8 @@ package us.dontcareabout.homePage.client.ui;
 import java.util.HashMap;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 import com.sencha.gxt.core.client.util.Margins;
 
 import us.dontcareabout.gxt.client.draw.LRectangleSprite;
@@ -29,6 +31,53 @@ public class MakeWineView extends LayerContainer {
 	private SummaryLayer summaryLayer = new SummaryLayer();
 
 	public MakeWineView() {
+		summaryLayer.addOutputHandler(new SpriteSelectionHandler() {
+			@Override
+			public void onSpriteSelect(SpriteSelectionEvent event) {
+				StringBuffer result = new StringBuffer();
+				HashMap<Ingredient, Integer> wineMap = composition.getWineComposition();
+
+				for (Ingredient wine : wineMap.keySet()) {
+					result.append(line(wine, wineMap.get(wine)));
+				}
+
+				int amount = composition.getLongan();
+				if (amount != 0) {
+					result.append(line(Ingredient.longan, amount));
+				}
+
+				amount = composition.getVat();
+				if (amount != 0) {
+					result.append(line(Ingredient.vat5L, amount));
+				}
+
+				result.append(line(Ingredient.blackBean, 1));
+				result.append("------------------------------------------------------\n");
+
+				int total = composition.getTotal();
+				result.append("=" + format(total / composition.getBlackBean()) + "\n");
+				result.append("x" + format(composition.getBlackBean()) + "\n");
+				result.append("------------------------------------------------------\n");
+				result.append("=" + format(total));
+
+				dlOrder("Black Bean Wine.txt", result.toString());
+			}
+
+			private String line(Ingredient igdnt, int amount) {
+				return " " + format(igdnt.price * amount) + "：" + igdnt.name + " (" + igdnt.price + ") * " + amount + "\n";
+			}
+
+			private String format(int value) {
+				StringBuffer result = new StringBuffer();
+
+				for (int i = 0; i < 8 - ("" + value).length(); i++) {
+					result.append(" ");
+				}
+
+				return result.toString() + value;
+			}
+		});
+
 		wineLayer.setComment(wineComment(Composition.WINE_MAX, null));
 
 		double unit = 1.0 / (Ingredient.values().length + 3);
@@ -130,6 +179,13 @@ public class MakeWineView extends LayerContainer {
 
 		return "糟糕，有駭客！？";	//不可能發生... 除非有 bug...
 	}
+
+	private static native void dlOrder(String name, String order) /*-{
+		var link = document.createElement('a');
+		link.href = "data:," + order;
+		link.download = name + ".txt";
+		link.click();
+	}-*/;
 
 	private class BR extends LayerSprite {
 		LRectangleSprite line = new LRectangleSprite();
