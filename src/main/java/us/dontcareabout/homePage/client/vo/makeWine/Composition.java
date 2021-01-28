@@ -54,6 +54,10 @@ public class Composition {
 		return result;
 	}
 
+	public int getBlackBean() {
+		return map.get(Ingredient.blackBean);
+	}
+
 	/**
 	 * @return 總金額
 	 */
