@@ -83,11 +83,11 @@ public class MakeWineView extends LayerContainer {
 		double unit = 1.0 / (Ingredient.values().length + 3);
 
 		root.addChild(wineLayer, unit * 6);
-		root.addChild(new BR(RGB.LIGHTGRAY), 5);
+		root.addChild(new BR(RGB.LIGHTGRAY), 4);
 		root.addChild(otherLayer, unit * 2);
-		root.addChild(new BR(RGB.LIGHTGRAY), 5);
+		root.addChild(new BR(RGB.LIGHTGRAY), 4);
 		root.addChild(new SingleIngredientLayer(Ingredient.vat5L), unit);
-		root.addChild(new BR(RGB.LIGHTGRAY), 5);
+		root.addChild(new BR(RGB.DARKGRAY), 8);
 		root.addChild(new SingleIngredientLayer(Ingredient.blackBean), unit);
 		root.addChild(new BR(RGB.DARKGRAY), 8);
 		root.addChild(summaryLayer, unit);

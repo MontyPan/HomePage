@@ -32,18 +32,17 @@ public class IngredientLayer extends HorizontalLayoutLayer {
 
 		nameTB = new TextButton(ingredient.name);
 		nameTB.setTextColor(color);
-		priceTB = new TextButton("" + ingredient.price);
-		priceTB.setBgColor(color);
-		priceTB.setTextColor(RGB.WHITE);
-		priceTB.setBgRadius(10);
+		priceTB = new TextButton("$" + ingredient.price);
+		priceTB.setTextColor(color);
 		amountL = new AmountLayer(ingredient);
 		totalTB = new TextButton("0");
 		totalTB.setTextColor(color);
 
 		addChild(nameTB, 0.4);
 		addChild(priceTB, 0.16);
-		addChild(igdnt.type == Type.vat ? new CheckboxLayer() : amountL, 0.2);
-		addChild(totalTB, 0.24);
+		addChild(new TextButton("x"), 0.05);
+		addChild(igdnt.type == Type.vat ? new CheckboxLayer() : amountL, 0.17);
+		addChild(totalTB, 0.22);
 
 		UiCenter.addAmountChange(new AmountChangeHandler() {
 			@Override
