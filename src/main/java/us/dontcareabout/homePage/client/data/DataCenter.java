@@ -9,6 +9,7 @@ import us.dontcareabout.gwt.client.google.SheetHappen;
 import us.dontcareabout.gwt.client.google.SheetHappen.Callback;
 import us.dontcareabout.homePage.client.data.AliceWorkReadyEvent.AliceWorkReadyHandler;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
+import us.dontcareabout.homePage.client.data.MykfzReadyEvent.MykfzReadyHandler;
 
 public class DataCenter {
 	private final static SimpleEventBus eventBus = new SimpleEventBus();
@@ -54,5 +55,27 @@ public class DataCenter {
 
 	public static HandlerRegistration addAliceReady(AliceWorkReadyHandler handler) {
 		return eventBus.addHandler(AliceWorkReadyEvent.TYPE, handler);
+	}
+
+	////////////////
+
+	private final static String MYKFZ_ID = "1OqUlyBD5bTbZjKyR7hYO1As44mPqDad-dZ90TH-zZAw";
+
+	public static void wantMykfz() {
+		SheetHappen.<Mykfz>get(MYKFZ_ID, new Callback<Mykfz>() {
+			@Override
+			public void onSuccess(Sheet<Mykfz> gs) {
+				eventBus.fireEvent(new MykfzReadyEvent(gs.getEntry()));
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				Console.log(exception);
+			}
+		});
+	}
+
+	public static HandlerRegistration addMykfzReady(MykfzReadyHandler handler) {
+		return eventBus.addHandler(MykfzReadyEvent.TYPE, handler);
 	}
 }
