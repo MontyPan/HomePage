@@ -2,10 +2,9 @@ package us.dontcareabout.homePage.client.component.mykfz;
 
 class ChartUtil {
 	public static final String[] LEVEL = {"K", "M", "B", "T", "aa", "ab", "ac", "ad"};
-
-	private static final int LV_MIN = 4;
-	private static final int LV_MAX = LEVEL.length;
-	private static final int LV_WEIGHT_UNIT = 5;
+	public static final int LV_MIN = 4;
+	public static final int LV_MAX = LEVEL.length;
+	public static final int LV_WEIGHT_UNIT = 5;
 
 	static double outputWeight(int level, double mantissa) {
 		if (level < LV_MIN) { return 0; }
