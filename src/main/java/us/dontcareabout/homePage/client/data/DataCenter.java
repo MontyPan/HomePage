@@ -7,6 +7,7 @@ import us.dontcareabout.gwt.client.Console;
 import us.dontcareabout.gwt.client.google.Sheet;
 import us.dontcareabout.gwt.client.google.SheetHappen;
 import us.dontcareabout.gwt.client.google.SheetHappen.Callback;
+import us.dontcareabout.homePage.client.common.mykfz.DateUtil;
 import us.dontcareabout.homePage.client.data.AliceWorkReadyEvent.AliceWorkReadyHandler;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
 import us.dontcareabout.homePage.client.data.MykfzReadyEvent.MykfzReadyHandler;
@@ -61,8 +62,10 @@ public class DataCenter {
 
 	private final static String MYKFZ_ID = "1OqUlyBD5bTbZjKyR7hYO1As44mPqDad-dZ90TH-zZAw";
 
-	public static void wantMykfz() {
-		SheetHappen.<Mykfz>get(MYKFZ_ID, new Callback<Mykfz>() {
+	public static void wantMykfz(int session) {
+		//第一個 tab 是 boss 進度，第二個是目前賽季、第 2+N 個是往前 N 個賽季...
+		int sessionIndex = 2 + DateUtil.nowSession() - session;
+		SheetHappen.<Mykfz>get(MYKFZ_ID, sessionIndex, new Callback<Mykfz>() {
 			@Override
 			public void onSuccess(Sheet<Mykfz> gs) {
 				eventBus.fireEvent(new MykfzReadyEvent(gs.getEntry()));
