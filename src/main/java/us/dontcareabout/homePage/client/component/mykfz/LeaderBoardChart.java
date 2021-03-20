@@ -7,11 +7,11 @@ import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.sencha.gxt.chart.client.chart.Chart;
-import com.sencha.gxt.chart.client.chart.Legend;
 import com.sencha.gxt.chart.client.chart.axis.NumericAxis;
 import com.sencha.gxt.chart.client.chart.axis.TimeAxis;
 import com.sencha.gxt.chart.client.chart.series.LineSeries;
 import com.sencha.gxt.chart.client.chart.series.Primitives;
+import com.sencha.gxt.chart.client.chart.series.Series;
 import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.chart.client.draw.sprite.Sprite;
 import com.sencha.gxt.chart.client.draw.sprite.TextSprite;
@@ -38,16 +38,9 @@ public class LeaderBoardChart extends Chart<DateData> {
 		outputAxis = genYAxis();
 		timeAxis = genXAxis();
 
-		Legend<DateData> legend = new Legend<DateData>();
-		legend.setItemHighlighting(true);
-		legend.setItemHiding(true);
-		legend.setPosition(Position.RIGHT);
-		legend.getBorderConfig().setStrokeWidth(0);
-
 		setStore(store);
 		setShadowChart(false);
 		setAnimated(true);
-		setLegend(legend);
 		addAxis(outputAxis);
 		addAxis(timeAxis);
 		setDefaultInsets(30);
@@ -93,6 +86,20 @@ public class LeaderBoardChart extends Chart<DateData> {
 		outputAxis.setMaximum(lvWeightMax);
 
 		redrawChart();
+	}
+
+	public void selectPlayer(List<Mykfz> data) {
+		for (Series<DateData> s : getSeries()) {
+			boolean hit = false;
+			for (Mykfz m : data) {
+				if (s.getLegendTitles().get(0).equals(m.getPlayer())) {
+					s.show(0);
+					hit = true;
+					break;
+				}
+			}
+			if (!hit) { s.hide(0); }
+		}
 	}
 
 	private NumericAxis<DateData> genYAxis() {
