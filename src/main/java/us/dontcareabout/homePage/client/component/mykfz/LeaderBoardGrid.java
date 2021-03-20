@@ -19,6 +19,7 @@ import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent.Selecti
 
 import us.dontcareabout.gxt.client.component.Grid2;
 import us.dontcareabout.homePage.client.data.Mykfz;
+import us.dontcareabout.homePage.client.ui.MykfzView;
 
 public class LeaderBoardGrid extends Grid2<Mykfz> {
 	private static final Properties properties = GWT.create(Properties.class);
@@ -31,7 +32,7 @@ public class LeaderBoardGrid extends Grid2<Mykfz> {
 		selectionModel.addSelectionChangedHandler(new SelectionChangedHandler<Mykfz>() {
 			@Override
 			public void onSelectionChanged(SelectionChangedEvent<Mykfz> event) {
-				//TODO
+				MykfzView.selectPlayerChange(event.getSelection());
 			}
 		});
 
