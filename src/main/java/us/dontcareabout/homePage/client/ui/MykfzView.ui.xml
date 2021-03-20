@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:c="urn:import:com.sencha.gxt.widget.core.client.container" 
+	xmlns:m="urn:import:us.dontcareabout.homePage.client.component.mykfz"
+	>
+	
+	<ui:with field="chartLD" type="com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData">
+		<ui:attributes width="1" height="1" />
+	</ui:with>
+
+	<ui:with field="gridLD" type="com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData">
+		<ui:attributes width="150" height="1" />
+	</ui:with>
+		
+	<c:HorizontalLayoutContainer>
+		<m:LeaderBoardChart ui:field="leaderBoardChart" layoutData="{chartLD}" />
+		<m:LeaderBoardGrid ui:field="leaderBoardGrid" layoutData="{gridLD}" />
+	</c:HorizontalLayoutContainer>
+</ui:UiBinder> 
