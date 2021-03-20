@@ -58,6 +58,7 @@ public class LeaderBoardChart extends Chart<DateData> {
 		HashSet<String> nameSet = new HashSet<>();
 		Date startDate = new Date();
 		int maxLevel = 0;
+		double maxMantissa = 0;
 
 		for (Mykfz mykfz : data) {
 			DateData item = store.findModelWithKey(mykfz.getDate().toString());
@@ -72,7 +73,12 @@ public class LeaderBoardChart extends Chart<DateData> {
 			item.put(mykfz.getPlayer(), ChartUtil.outputWeight(mykfz.getLevel(), mykfz.getMantissa()));
 			nameSet.add(mykfz.getPlayer());
 
-			if (maxLevel < mykfz.getLevel()) { maxLevel = mykfz.getLevel(); }
+			if (maxLevel < mykfz.getLevel()) {
+				maxLevel = mykfz.getLevel();
+				maxMantissa = mykfz.getMantissa();
+			} else if (maxLevel == mykfz.getLevel() && maxMantissa < mykfz.getMantissa()) {
+				maxMantissa = mykfz.getMantissa();
+			}
 		}
 
 		for (String name : nameSet) {
@@ -82,7 +88,7 @@ public class LeaderBoardChart extends Chart<DateData> {
 		timeAxis.setStartDate(startDate);
 		timeAxis.setEndDate(new Date());
 
-		int lvWeightMax = ChartUtil.levelWeight(maxLevel + 1);
+		int lvWeightMax = ChartUtil.levelWeight(maxLevel) + ChartUtil.mantissaWeight(maxLevel, maxMantissa);
 		outputAxis.setSteps(lvWeightMax / ChartUtil.LV_WEIGHT_UNIT);
 		outputAxis.setMaximum(lvWeightMax);
 
