@@ -39,8 +39,6 @@ public class LeaderBoardChart extends Chart<DateData> {
 		timeAxis = genXAxis();
 
 		setStore(store);
-		setShadowChart(false);
-		setAnimated(true);
 		addAxis(outputAxis);
 		addAxis(timeAxis);
 		setDefaultInsets(30);

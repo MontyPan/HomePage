@@ -54,6 +54,7 @@ public class LeaderBoardGrid extends Grid2<Mykfz> {
 		}
 
 		store.addAll(maxDateData);
+		selectionModel.selectAll();
 	}
 	@Override
 	protected ListStore<Mykfz> genListStore() {
