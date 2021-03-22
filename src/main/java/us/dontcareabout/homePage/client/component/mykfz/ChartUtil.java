@@ -10,7 +10,7 @@ class ChartUtil {
 	static double outputWeight(int level, double mantissa) {
 		if (level < LV_MIN) { return 0; }
 
-		return levelWeight(level) + mantissa / 100.0 * (level - LV_MIN + 1);
+		return levelWeight(level) + mantissa / 1000.0 * levelUnit(level) * LV_WEIGHT_UNIT;
 	}
 
 	/**
