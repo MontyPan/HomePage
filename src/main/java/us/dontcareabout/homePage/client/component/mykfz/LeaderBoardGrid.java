@@ -1,7 +1,8 @@
 package us.dontcareabout.homePage.client.component.mykfz;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -11,6 +12,8 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.data.shared.SortDir;
+import com.sencha.gxt.data.shared.Store.StoreSortInfo;
 import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -41,24 +44,34 @@ public class LeaderBoardGrid extends Grid2<Mykfz> {
 	}
 
 	public void refresh(List<Mykfz> data) {
-		Date maxDate = new Date(0);
-		for (Mykfz mykfz : data) {
-			if (mykfz.getDate().after(maxDate)) { maxDate = mykfz.getDate(); }
-		}
+		HashMap<String, Mykfz> map = new HashMap<>();
 
-		ArrayList<Mykfz> maxDateData = new ArrayList<>();
 		for (Mykfz mykfz : data) {
-			if (mykfz.getDate().equals(maxDate)) {
-				maxDateData.add(mykfz);
+			Mykfz inMap = map.get(mykfz.getPlayer());
+
+			if (inMap == null) {
+				map.put(mykfz.getPlayer(), mykfz);
+			} else {
+				if (ChartUtil.outputWeight(mykfz.getLevel(), mykfz.getMantissa()) > ChartUtil.outputWeight(inMap.getLevel(), inMap.getMantissa())) {
+					map.put(mykfz.getPlayer(), mykfz);
+				}
 			}
 		}
 
-		store.addAll(maxDateData);
+		store.addAll(map.values());
 		selectionModel.selectAll();
 	}
 	@Override
 	protected ListStore<Mykfz> genListStore() {
-		return new ListStore<>(properties.key());
+		ListStore<Mykfz> result = new ListStore<>(properties.key());
+		result.addSortInfo(new StoreSortInfo<>(new Comparator<Mykfz>() {
+			@Override
+			public int compare(Mykfz o1, Mykfz o2) {
+				if (o1.getLevel() != o2.getLevel()) { return o1.getLevel() - o2.getLevel(); }
+				return (int)(o1.getMantissa() - o2.getMantissa());
+			}
+		}, SortDir.DESC));
+		return result;
 	}
 
 	@Override
