@@ -25,4 +25,12 @@ public class DateUtil {
 	public static int nowSession() {
 		return session(new Date());
 	}
+
+	public static Date sessionStart(int i) {
+		return start.addDays((i - 1) * 14).asDate();
+	}
+
+	public static Date sessionEnd(int i) {
+		return start.addDays(i * 14 - 3).asDate();
+	}
 }
