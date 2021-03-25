@@ -1,6 +1,8 @@
 package us.dontcareabout.homePage.client.layer.mykfz;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerContainer;
@@ -8,18 +10,32 @@ import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.component.TextButton;
 import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.common.mykfz.DateUtil;
+import us.dontcareabout.homePage.client.component.mykfz.LeaderBoardGallery;
 
 public class SessionLayer extends LayerContainer {
 	private static final int HEIGHT = 100;
+
+	private int session = DateUtil.nowSession();
+
 	private NameLayer nameL = new NameLayer();
 	private TextButton leaderBoardTB = new TextButton("排行榜擷圖");
+	private LeaderBoardGallery lbList = new LeaderBoardGallery();
 
 	public SessionLayer() {
 		super(1, HEIGHT);
 
+		nameL.setSession(session);
+
 		leaderBoardTB.setBgColor(RGB.DARKGRAY);
 		leaderBoardTB.setTextColor(RGB.WHITE);
 		leaderBoardTB.setBgRadius(5);
+		leaderBoardTB.addSpriteSelectionHandler(new SpriteSelectionHandler() {
+			@Override
+			public void onSpriteSelect(SpriteSelectionEvent event) {
+				lbList.refresh(session);
+				Util.showDialog(lbList, 360, 600);
+			}
+		});
 
 		addLayer(nameL);
 		addLayer(leaderBoardTB);
@@ -49,8 +65,6 @@ public class SessionLayer extends LayerContainer {
 			dateTS.setFill(RGB.WHITE);
 			add(nameTS);
 			add(dateTS);
-
-			setSession(DateUtil.nowSession());
 		}
 
 		@Override
