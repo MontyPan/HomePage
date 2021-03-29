@@ -12,7 +12,7 @@ import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.common.mykfz.DateUtil;
 import us.dontcareabout.homePage.client.component.mykfz.LeaderBoardGallery;
 
-public class SessionLayer extends LayerContainer {
+public class SeasonLayer extends LayerContainer {
 	private static final int HEIGHT = 100;
 
 	private int session = DateUtil.nowSession();
@@ -21,7 +21,7 @@ public class SessionLayer extends LayerContainer {
 	private TextButton leaderBoardTB = new TextButton("排行榜擷圖");
 	private LeaderBoardGallery lbList = new LeaderBoardGallery();
 
-	public SessionLayer() {
+	public SeasonLayer() {
 		super(1, HEIGHT);
 
 		nameL.setSession(session);
