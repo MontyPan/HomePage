@@ -3,7 +3,15 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
 	xmlns:c="urn:import:com.sencha.gxt.widget.core.client.container" 
 	xmlns:m="urn:import:us.dontcareabout.homePage.client.component.mykfz"
-	>
+	xmlns:mykfz="urn:import:us.dontcareabout.homePage.client.layer.mykfz">
+
+	<ui:with field="northLD" type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData">
+		<ui:attributes width="1" height="-1" />
+	</ui:with>
+
+	<ui:with field="centerLD" type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData">
+		<ui:attributes width="1" height="1" />
+	</ui:with>
 	
 	<ui:with field="chartLD" type="com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData">
 		<ui:attributes width="1" height="1" />
@@ -12,9 +20,12 @@
 	<ui:with field="gridLD" type="com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData">
 		<ui:attributes width="150" height="1" />
 	</ui:with>
-		
-	<c:HorizontalLayoutContainer>
-		<m:LeaderBoardChart ui:field="leaderBoardChart" layoutData="{chartLD}" />
-		<m:LeaderBoardGrid ui:field="leaderBoardGrid" layoutData="{gridLD}" />
-	</c:HorizontalLayoutContainer>
+
+	<c:VerticalLayoutContainer>
+		<mykfz:SeasonLayer layoutData="{northLD}" />
+		<c:HorizontalLayoutContainer layoutData="{centerLD}">
+			<m:LeaderBoardChart ui:field="leaderBoardChart" layoutData="{chartLD}" />
+			<m:LeaderBoardGrid ui:field="leaderBoardGrid" layoutData="{gridLD}" />
+		</c:HorizontalLayoutContainer>
+	</c:VerticalLayoutContainer>
 </ui:UiBinder> 
