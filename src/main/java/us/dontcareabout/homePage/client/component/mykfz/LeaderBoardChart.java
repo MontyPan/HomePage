@@ -12,7 +12,8 @@ import com.sencha.gxt.chart.client.chart.axis.TimeAxis;
 import com.sencha.gxt.chart.client.chart.series.LineSeries;
 import com.sencha.gxt.chart.client.chart.series.Primitives;
 import com.sencha.gxt.chart.client.chart.series.Series;
-import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.Color;
+import com.sencha.gxt.chart.client.draw.HSL;
 import com.sencha.gxt.chart.client.draw.sprite.Sprite;
 import com.sencha.gxt.chart.client.draw.sprite.TextSprite;
 import com.sencha.gxt.core.client.ValueProvider;
@@ -72,8 +73,11 @@ public class LeaderBoardChart extends Chart<DateData> {
 			}
 		}
 
+		List<HSL> colors = ChartUtil.diffrentColor(nameSet.size());
+		int i = 0;
 		for (String name : nameSet) {
-			createLine(name);
+			createLine(name, colors.get(i));
+			i++;
 		}
 
 		timeAxis.setStartDate(startDate);
@@ -137,11 +141,8 @@ public class LeaderBoardChart extends Chart<DateData> {
 		return result;
 	}
 
-	private void createLine(String player) {
+	private void createLine(String player, Color color) {
 		ValueProviderByName vp = new ValueProviderByName(player);
-
-		//TODO 強化顏色選擇
-		RGB color = new RGB((int)(Math.random() * 255), (int)(Math.random() * 255), (int)(Math.random() * 255));
 
 		Sprite marker = Primitives.circle(0, 0, 3);
 		marker.setFill(color);
