@@ -1,5 +1,10 @@
 package us.dontcareabout.homePage.client.component.mykfz;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sencha.gxt.chart.client.draw.HSL;
+
 class ChartUtil {
 	public static final String[] LEVEL = {"", "K", "M", "B", "T", "aa", "ab", "ac", "ad"};
 	public static final int LV_MIN = 3;
@@ -45,5 +50,27 @@ class ChartUtil {
 		}
 
 		return "";
+	}
+
+	////////////////
+
+	public static List<HSL> diffrentColor(int amount) {
+		ArrayList<HSL> result = new ArrayList<>();
+
+		for (int i = 0; i < amount; i++) {
+			if (i < 18) {
+				result.add(new HSL(i * 20, 1, 0.5));
+			} else if (i < 36) {
+				result.add(new HSL(i * 20 + 10, 1, 0.7));
+			} else if (i < 46) {
+				//飽和變低、亮度變暗會讓顏色差異感變小，所以 H 的差別就大一點
+				result.add(new HSL(i * 36, 0.8, 0.4));
+			} else {
+				//已經多到這種程度就無所謂了，都亂數就算了...... [眼神死]
+				result.add(new HSL(Math.random() * 360, Math.random() * 0.5 + 0.5, Math.random() * 0.6 + 0.2));
+			}
+		}
+
+		return result;
 	}
 }
