@@ -4,6 +4,7 @@ import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 
+import us.dontcareabout.gxt.client.draw.Cursor;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
@@ -11,20 +12,25 @@ import us.dontcareabout.gxt.client.draw.component.TextButton;
 import us.dontcareabout.homePage.client.Util;
 import us.dontcareabout.homePage.client.common.mykfz.DateUtil;
 import us.dontcareabout.homePage.client.component.mykfz.LeaderBoardGallery;
+import us.dontcareabout.homePage.client.component.mykfz.SeasonSelectPanel;
+import us.dontcareabout.homePage.client.ui.MykfzView;
+import us.dontcareabout.homePage.client.ui.event.mykfz.SelectSeasonChangeEvent;
+import us.dontcareabout.homePage.client.ui.event.mykfz.SelectSeasonChangeEvent.SelectSeasonChangeHandler;
 
 public class SeasonLayer extends LayerContainer {
 	private static final int HEIGHT = 100;
 
+	//真正的值應該是 SelectSeasonChangeHandler 決定，這邊只是給個預防萬一 XD
 	private int session = DateUtil.nowSession();
 
 	private NameLayer nameL = new NameLayer();
 	private TextButton leaderBoardTB = new TextButton("排行榜擷圖");
+
+	private SeasonSelectPanel seasonSelectPanel = new SeasonSelectPanel();
 	private LeaderBoardGallery lbList = new LeaderBoardGallery();
 
 	public SeasonLayer() {
 		super(1, HEIGHT);
-
-		nameL.setSession(session);
 
 		leaderBoardTB.setBgColor(RGB.DARKGRAY);
 		leaderBoardTB.setTextColor(RGB.WHITE);
@@ -39,6 +45,14 @@ public class SeasonLayer extends LayerContainer {
 
 		addLayer(nameL);
 		addLayer(leaderBoardTB);
+
+		MykfzView.addSelectSeasonChange(new SelectSeasonChangeHandler() {
+			@Override
+			public void onSelectSeasonChange(SelectSeasonChangeEvent event) {
+				session = event.data;
+				nameL.setSession(session);
+			}
+		});
 	}
 
 	@Override
@@ -58,6 +72,12 @@ public class SeasonLayer extends LayerContainer {
 		NameLayer() {
 			setBgColor(RGB.DARKGRAY);
 			setBgRadius(5);
+			addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					Util.showDialog(seasonSelectPanel, 200, 120);
+				}
+			});
 
 			nameTS.setFontSize(30);
 			nameTS.setFill(RGB.WHITE);
@@ -65,6 +85,7 @@ public class SeasonLayer extends LayerContainer {
 			dateTS.setFill(RGB.WHITE);
 			add(nameTS);
 			add(dateTS);
+			setMemberCursor(Cursor.POINTER);
 		}
 
 		@Override
@@ -81,6 +102,7 @@ public class SeasonLayer extends LayerContainer {
 				Util.dateFormat.format(DateUtil.sessionStart(i)) + "～" +
 				Util.dateFormat.format(DateUtil.sessionEnd(i))
 			);
+			redraw();
 		}
 	}
 }
