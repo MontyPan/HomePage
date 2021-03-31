@@ -19,6 +19,8 @@ import us.dontcareabout.homePage.client.data.MykfzReadyEvent;
 import us.dontcareabout.homePage.client.data.MykfzReadyEvent.MykfzReadyHandler;
 import us.dontcareabout.homePage.client.ui.event.mykfz.SelectPlayerChangeEvent;
 import us.dontcareabout.homePage.client.ui.event.mykfz.SelectPlayerChangeEvent.SelectPlayerChangeHandler;
+import us.dontcareabout.homePage.client.ui.event.mykfz.SelectSeasonChangeEvent;
+import us.dontcareabout.homePage.client.ui.event.mykfz.SelectSeasonChangeEvent.SelectSeasonChangeHandler;
 
 public class MykfzView extends Composite {
 	private static MykfzViewUiBinder uiBinder = GWT.create(MykfzViewUiBinder.class);
@@ -42,7 +44,7 @@ public class MykfzView extends Composite {
 				leaderBoardGrid.refresh(event.data);
 			}
 		});
-		DataCenter.wantMykfz(DateUtil.nowSession());
+		selectSeasonChange(DateUtil.nowSession());
 	}
 
 	public static HandlerRegistration addSelectPlayerChange(SelectPlayerChangeHandler handler) {
@@ -51,6 +53,15 @@ public class MykfzView extends Composite {
 
 	public static void selectPlayerChange(List<Mykfz> selectPlayer) {
 		eventBus.fireEvent(new SelectPlayerChangeEvent(selectPlayer));
+	}
+
+	public static HandlerRegistration addSelectSeasonChange(SelectSeasonChangeHandler handler) {
+		return eventBus.addHandler(SelectSeasonChangeEvent.TYPE, handler);
+	}
+
+	public static void selectSeasonChange(int selectSeason) {
+		eventBus.fireEvent(new SelectSeasonChangeEvent(selectSeason));
+		DataCenter.wantMykfz(selectSeason);
 	}
 
 	interface MykfzViewUiBinder extends UiBinder<Widget, MykfzView> {}
