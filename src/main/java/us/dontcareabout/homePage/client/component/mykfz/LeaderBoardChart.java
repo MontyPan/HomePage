@@ -47,13 +47,14 @@ public class LeaderBoardChart extends Chart<DateData> {
 
 	public void refresh(List<Mykfz> data) {
 		if (data.isEmpty()) {
+			reset();
 			mask("尚未有資料");
 			return;
 		}
 
 		unmask();
+		reset();
 
-		//TODO 沒處理重複呼叫的狀況
 		HashSet<String> nameSet = new HashSet<>();
 		Date startDate = new Date();
 		int maxLevel = 0;
@@ -164,6 +165,12 @@ public class LeaderBoardChart extends Chart<DateData> {
 
 		outputAxis.addField(vp);
 		addSeries(series);
+	}
+
+	private void reset() {
+		outputAxis.clear();
+		timeAxis.clear();
+		store.clear();
 	}
 
 	class DateData extends HashMap<String, Double> {

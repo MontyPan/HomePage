@@ -45,6 +45,7 @@ public class LeaderBoardGrid extends Grid2<Mykfz> {
 
 	public void refresh(List<Mykfz> data) {
 		if (data.isEmpty()) {
+			store.clear();
 			mask("尚未有資料");
 			return;
 		}
@@ -64,7 +65,7 @@ public class LeaderBoardGrid extends Grid2<Mykfz> {
 			}
 		}
 
-		store.addAll(map.values());
+		store.replaceAll(new ArrayList<>(map.values()));
 		selectionModel.selectAll();
 	}
 	@Override
