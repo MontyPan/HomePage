@@ -46,6 +46,13 @@ public class LeaderBoardChart extends Chart<DateData> {
 	}
 
 	public void refresh(List<Mykfz> data) {
+		if (data.isEmpty()) {
+			mask("尚未有資料");
+			return;
+		}
+
+		unmask();
+
 		//TODO 沒處理重複呼叫的狀況
 		HashSet<String> nameSet = new HashSet<>();
 		Date startDate = new Date();

@@ -44,6 +44,12 @@ public class LeaderBoardGrid extends Grid2<Mykfz> {
 	}
 
 	public void refresh(List<Mykfz> data) {
+		if (data.isEmpty()) {
+			mask("尚未有資料");
+			return;
+		}
+
+		unmask();
 		HashMap<String, Mykfz> map = new HashMap<>();
 
 		for (Mykfz mykfz : data) {
