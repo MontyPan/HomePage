@@ -1,6 +1,7 @@
 package us.dontcareabout.homePage.client.component.alice;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.core.client.ValueProvider;
@@ -23,7 +24,7 @@ public class WorkGrid extends Grid2<AliceWork> {
 		getView().setForceFit(true);
 	}
 
-	public void refresh(ArrayList<AliceWork> data) {
+	public void refresh(List<AliceWork> data) {
 		getStore().clear();
 		getStore().addAll(data);
 	}

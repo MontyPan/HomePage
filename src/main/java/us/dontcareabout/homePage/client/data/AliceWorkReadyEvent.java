@@ -1,6 +1,6 @@
 package us.dontcareabout.homePage.client.data;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -9,10 +9,10 @@ import us.dontcareabout.homePage.client.data.AliceWorkReadyEvent.AliceWorkReadyH
 
 public class AliceWorkReadyEvent extends GwtEvent<AliceWorkReadyHandler> {
 	public static final Type<AliceWorkReadyHandler> TYPE = new Type<AliceWorkReadyHandler>();
-	public final ArrayList<AliceWork> data;
+	public final List<AliceWork> data;
 
-	public AliceWorkReadyEvent(ArrayList<AliceWork> data) {
-		this.data = data;
+	public AliceWorkReadyEvent(List<AliceWork> list) {
+		this.data = list;
 	}
 
 	@Override

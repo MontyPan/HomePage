@@ -5,9 +5,9 @@ import java.util.Date;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.sencha.gxt.core.client.util.DateWrapper;
 
-import us.dontcareabout.gwt.client.google.SheetEntry;
+import us.dontcareabout.gwt.client.google.sheet.Row;
 
-public final class FTL extends SheetEntry {
+public final class FTL extends Row {
 	protected FTL() {}
 
 	public String getShip() {

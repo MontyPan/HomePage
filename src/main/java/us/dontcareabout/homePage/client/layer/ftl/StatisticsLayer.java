@@ -3,6 +3,7 @@ package us.dontcareabout.homePage.client.layer.ftl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import com.sencha.gxt.chart.client.draw.RGB;
 
@@ -22,7 +23,7 @@ public class StatisticsLayer extends VerticalLayoutLayer {
 		setMargins(3);
 	}
 
-	public void refresh(ArrayList<FTL> data) {
+	public void refresh(List<FTL> data) {
 		HashMap<String, ShipLayer> shipMap = new HashMap<>();
 
 		for (FTL ftl : data) {

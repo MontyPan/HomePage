@@ -1,6 +1,6 @@
 package us.dontcareabout.homePage.client.layer.ftl;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.sencha.gxt.chart.client.draw.RGB;
 
@@ -46,7 +46,7 @@ public class TrophyLayer extends VerticalLayoutLayer {
 		addChild(damnTitle, 130);
 	}
 
-	public void refresh(ArrayList<FTL> data) {
+	public void refresh(List<FTL> data) {
 		longest.ftl = data.get(0);
 		dieHard.ftl = data.get(0);
 		damnTitle.ftl = data.get(0);

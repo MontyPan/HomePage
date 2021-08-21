@@ -4,25 +4,26 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 import us.dontcareabout.gwt.client.Console;
-import us.dontcareabout.gwt.client.google.Sheet;
-import us.dontcareabout.gwt.client.google.SheetHappen;
-import us.dontcareabout.gwt.client.google.SheetHappen.Callback;
-import us.dontcareabout.homePage.client.common.mykfz.DateUtil;
+import us.dontcareabout.gwt.client.google.sheet.Sheet;
+import us.dontcareabout.gwt.client.google.sheet.SheetDto;
+import us.dontcareabout.gwt.client.google.sheet.SheetDto.Callback;
 import us.dontcareabout.homePage.client.data.AliceWorkReadyEvent.AliceWorkReadyHandler;
 import us.dontcareabout.homePage.client.data.FtlReadyEvent.FtlReadyHandler;
 import us.dontcareabout.homePage.client.data.MykfzReadyEvent.MykfzReadyHandler;
 
 public class DataCenter {
+	private final static String KEY = "AIzaSyC6ZKEGWCfDoMhjIqPT0SRLu73WWFTGPdY";
 	private final static SimpleEventBus eventBus = new SimpleEventBus();
 
-	private final static String PS_ID = "1TLbmAtO_3TMCvRTW9NNPBsAd05bpmjNzQrM5xZS0Pjc";
+	private final static SheetDto<FTL> ftlSheet = new SheetDto<FTL>()
+		.key(KEY).sheetId("1TLbmAtO_3TMCvRTW9NNPBsAd05bpmjNzQrM5xZS0Pjc").tabName("FTL");
 
 	public static void wantFTL() {
-		SheetHappen.<FTL>get(PS_ID, 1,
+		ftlSheet.fetch(
 			new Callback<FTL>() {
 				@Override
 				public void onSuccess(Sheet<FTL> gs) {
-					eventBus.fireEvent(new FtlReadyEvent(gs.getEntry()));
+					eventBus.fireEvent(new FtlReadyEvent(gs.getRows()));
 				}
 
 				@Override
@@ -38,13 +39,14 @@ public class DataCenter {
 
 	////////////////
 
-	private final static String ALICE_ID = "1tnZL2c9dO7KO4-rOCw_Xr89MX0ccpziMPSmk54q8cPQ";
+	private final static SheetDto<AliceWork> aliceSheet = new SheetDto<AliceWork>()
+		.key(KEY).sheetId("1tnZL2c9dO7KO4-rOCw_Xr89MX0ccpziMPSmk54q8cPQ").tabName("publication");
 
 	public static void wantAlice() {
-		SheetHappen.<AliceWork>get(ALICE_ID, new Callback<AliceWork>() {
+		aliceSheet.fetch(new Callback<AliceWork>() {
 			@Override
 			public void onSuccess(Sheet<AliceWork> gs) {
-				eventBus.fireEvent(new AliceWorkReadyEvent(gs.getEntry()));
+				eventBus.fireEvent(new AliceWorkReadyEvent(gs.getRows()));
 			}
 
 			@Override
@@ -60,23 +62,8 @@ public class DataCenter {
 
 	////////////////
 
-	private final static String MYKFZ_ID = "1OqUlyBD5bTbZjKyR7hYO1As44mPqDad-dZ90TH-zZAw";
-
-	public static void wantMykfz(int session) {
-		//第一個 tab 是 boss 進度，第二個是目前賽季、第 2+N 個是往前 N 個賽季...
-		int sessionIndex = 2 + DateUtil.nowSession() - session;
-		SheetHappen.<Mykfz>get(MYKFZ_ID, sessionIndex, new Callback<Mykfz>() {
-			@Override
-			public void onSuccess(Sheet<Mykfz> gs) {
-				eventBus.fireEvent(new MykfzReadyEvent(gs.getEntry()));
-			}
-
-			@Override
-			public void onError(Throwable exception) {
-				Console.log(exception);
-			}
-		});
-	}
+	//Delete 等到 QtdClan 正式完工之後再一起砍砍掉
+	public static void wantMykfz(int session) {}
 
 	public static HandlerRegistration addMykfzReady(MykfzReadyHandler handler) {
 		return eventBus.addHandler(MykfzReadyEvent.TYPE, handler);

@@ -1,8 +1,8 @@
 package us.dontcareabout.homePage.client.data;
 
-import us.dontcareabout.gwt.client.google.SheetEntry;
+import us.dontcareabout.gwt.client.google.sheet.Row;
 
-public final class AliceWork extends SheetEntry {
+public final class AliceWork extends Row {
 	protected AliceWork() {}
 
 	public String getType() {

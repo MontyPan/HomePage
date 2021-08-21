@@ -1,6 +1,6 @@
 package us.dontcareabout.homePage.client.ui;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -43,7 +43,7 @@ public class FtlView extends LayerContainer {
 		layout.resize(width, height);
 	}
 
-	private void refresh(ArrayList<FTL> data) {
+	private void refresh(List<FTL> data) {
 		timeLayer.refresh(data);
 		statisticLayer.refresh(data);
 		trophyLayer.refresh(data);

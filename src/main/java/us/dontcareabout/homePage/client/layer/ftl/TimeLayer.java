@@ -2,6 +2,7 @@ package us.dontcareabout.homePage.client.layer.ftl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.homePage.client.data.FTL;
@@ -29,7 +30,7 @@ public class TimeLayer extends VerticalLayoutLayer {
 		});
 	}
 
-	public void refresh(ArrayList<FTL> data) {
+	public void refresh(List<FTL> data) {
 		yearMap.clear();
 
 		int maxYear = 0;
