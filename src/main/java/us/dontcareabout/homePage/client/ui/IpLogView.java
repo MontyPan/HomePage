@@ -38,7 +38,15 @@ public class IpLogView extends VerticalLayoutContainer {
 
 	private void analysis() {
 		rawList = Stream.of(log.getText().split("\n"))
-			.map(line -> new RawData(line)).collect(Collectors.toList());
+			.map(line -> {
+				try {
+					return new RawData(line);
+				} catch (Exception e) {
+					return null;
+				}
+			})
+			.filter(r -> r != null)
+			.collect(Collectors.toList());
 
 		ipMap.clear();
 		rawList.forEach(raw -> {
