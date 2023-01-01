@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
@@ -89,6 +90,9 @@ class Timeline extends LayerContainer {
 		for (int i = 0; i < names.length; i++) {
 			TextButton nameTB = new TextButton(names[i]);
 			nameTB.setBgColor(nameColor(names[i]));
+			nameTB.addSpriteSelectionHandler(
+				e -> Window.open("https://www.google.com/search?q=ptt+" + nameTB.getText(), "_blank", null)
+			);
 			result.addChild(nameTB, 80);
 		}
 
